@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import MovieCard from '../movie-card/movie-card';
+import Logo from '../logo/logo';
+import MovieCardScreen from '../movie-card-screen/movie-card-screen';
 
 export default function WelcomeScreen({ headerMovie, movies }) {
   const {
@@ -21,13 +22,7 @@ export default function WelcomeScreen({ headerMovie, movies }) {
         <h1 className="visually-hidden">WTW</h1>
 
         <header className="page-header film-card__head">
-          <div className="logo">
-            <a className="logo__link">
-              <span className="logo__letter logo__letter--1">W</span>
-              <span className="logo__letter logo__letter--2">T</span>
-              <span className="logo__letter logo__letter--3">W</span>
-            </a>
-          </div>
+          <Logo />
 
           <ul className="user-block">
             <li className="user-block__item">
@@ -111,7 +106,7 @@ export default function WelcomeScreen({ headerMovie, movies }) {
           </ul>
 
           <div className="catalog__films-list">
-            {movies.map((movie) => <MovieCard key={movie.title + movie.movieLink} movie={movie} />)}
+            {movies.map((movie, index) => <MovieCardScreen key={movie.title + movie.movieLink + index} movie={movie} />)}
           </div>
 
           <div className="catalog__more">
@@ -120,13 +115,7 @@ export default function WelcomeScreen({ headerMovie, movies }) {
         </section>
 
         <footer className="page-footer">
-          <div className="logo">
-            <a className="logo__link logo__link--light">
-              <span className="logo__letter logo__letter--1">W</span>
-              <span className="logo__letter logo__letter--2">T</span>
-              <span className="logo__letter logo__letter--3">W</span>
-            </a>
-          </div>
+          <Logo />
 
           <div className="copyright">
             <p>© 2019 What to watch Ltd.</p>
