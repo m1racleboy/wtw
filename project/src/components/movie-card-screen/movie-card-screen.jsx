@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-export default function MovieCard({ movie }) {
+export default function MovieCardScreen({ movie }) {
   const { title, movieLink, preview } = movie;
 
   return (
@@ -16,7 +16,7 @@ export default function MovieCard({ movie }) {
   );
 }
 
-MovieCard.propTypes = {
+MovieCardScreen.propTypes = {
   movie: PropTypes.shape({
     title: PropTypes.string.isRequired,
     movieLink: PropTypes.string.isRequired,

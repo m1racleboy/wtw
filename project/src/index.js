@@ -28,7 +28,6 @@ for (let i = 0; i < Settings.START_COUNT_MOVIES; i++) {
   movies[i] = movie;
 }
 
-
 ReactDOM.render(
   <React.StrictMode>
     <App headerMovie={headerMovie} movies={movies} />
