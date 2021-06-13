@@ -51,6 +51,7 @@ App.propTypes = {
   }).isRequired,
   movies: PropTypes.arrayOf(
     PropTypes.shape({
+      id: PropTypes.string.isRequired,
       title: PropTypes.string.isRequired,
       movieLink: PropTypes.string.isRequired,
       poster: PropTypes.string.isRequired,
