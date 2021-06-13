@@ -106,7 +106,7 @@ export default function WelcomeScreen({ headerMovie, movies }) {
           </ul>
 
           <div className="catalog__films-list">
-            {movies.map((movie, index) => <MovieCardScreen key={movie.title + movie.movieLink + index} movie={movie} />)}
+            {movies.map((movie) => <MovieCardScreen key={movie.title + movie.movieLink + movie.id} movie={movie} />)}
           </div>
 
           <div className="catalog__more">
@@ -136,8 +136,9 @@ WelcomeScreen.propTypes = {
   }).isRequired,
   movies: PropTypes.arrayOf(
     PropTypes.shape({
+      id: PropTypes.string.isRequired,
       title: PropTypes.string.isRequired,
       movieLink: PropTypes.string.isRequired,
-      preview: PropTypes.string.isRequired,
+      poster: PropTypes.string.isRequired,
     })).isRequired,
 };

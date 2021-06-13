@@ -53,6 +53,6 @@ App.propTypes = {
     PropTypes.shape({
       title: PropTypes.string.isRequired,
       movieLink: PropTypes.string.isRequired,
-      preview: PropTypes.string.isRequired,
+      poster: PropTypes.string.isRequired,
     })).isRequired,
 };

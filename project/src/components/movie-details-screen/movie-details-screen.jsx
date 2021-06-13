@@ -96,7 +96,7 @@ export default function MovieDetailsScreen() {
                       Adrien br /ody, <br />
                       Ralph Fiennes, <br />
                       Jeff Goldblum
-                  </span>
+                    </span>
                   </p>
                 </div>
 
