@@ -2,6 +2,8 @@ import React from 'react';
 import { Switch, Route, BrowserRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
+import MovieProp from '../movie-card-screen/movie-card.prop';
+
 import WelcomeScreen from '../welcome-screen/welcome-screen';
 import LoginScreen from '../login-screen/login-screen';
 import MovieDetailsScreen from '../movie-details-screen/movie-details-screen';
@@ -11,27 +13,29 @@ import PlayerScreen from '../player-screen/player-screen';
 import NotFoundScreen from '../not-found-screen/not-found-screen';
 
 import { AppRoute } from '../../const';
-export default function App({ headerMovie, movies }) {
+export default function App(props) {
+  const { movies } = props;
+
   return (
     <BrowserRouter>
       <Switch>
         <Route exact path={AppRoute.ROOT}>
-          <WelcomeScreen headerMovie={headerMovie} movies={movies} />
+          <WelcomeScreen movies={movies} />
         </Route>
         <Route exact path={AppRoute.LOGIN}>
           <LoginScreen />
         </Route>
         <Route exact path={AppRoute.MOVIE}>
-          <MovieDetailsScreen />
+          <MovieDetailsScreen movies={movies} />
         </Route>
         <Route exact path={AppRoute.MY_LIST}>
-          <MyListScreen />
+          <MyListScreen movies={movies} />
         </Route>
         <Route exact path={AppRoute.REVIEW}>
-          <AddReviewScreen />
+          <AddReviewScreen movies={movies} />
         </Route>
         <Route exact path={AppRoute.PLAYER}>
-          <PlayerScreen />
+          <PlayerScreen movies={movies} />
         </Route>
         <Route>
           <NotFoundScreen />
@@ -42,18 +46,5 @@ export default function App({ headerMovie, movies }) {
 }
 
 App.propTypes = {
-  headerMovie: PropTypes.shape({
-    title: PropTypes.string.isRequired,
-    genre: PropTypes.string.isRequired,
-    year: PropTypes.number.isRequired,
-    backgroundImage: PropTypes.string.isRequired,
-    poster: PropTypes.string.isRequired,
-  }).isRequired,
-  movies: PropTypes.arrayOf(
-    PropTypes.shape({
-      id: PropTypes.string.isRequired,
-      title: PropTypes.string.isRequired,
-      movieLink: PropTypes.string.isRequired,
-      poster: PropTypes.string.isRequired,
-    })).isRequired,
+  movies: PropTypes.arrayOf(MovieProp).isRequired,
 };

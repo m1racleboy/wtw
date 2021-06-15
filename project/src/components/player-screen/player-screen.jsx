@@ -1,9 +1,22 @@
 import React from 'react';
+import PropTypes from 'prop-types';
+import { useParams } from 'react-router-dom';
 
-export default function PlayerScreen() {
+import MovieProp from '../movie-card-screen/movie-card.prop';
+
+export default function PlayerScreen(props) {
+  const { movies } = props;
+  const { id } = useParams();
+  const [movie] = movies.filter((element) => element.id === id);
+
+  const {
+    poster,
+    runtime,
+    title,
+  } = movie;
   return (
     <div className="player">
-      <video src="#" className="player__video" poster="img/player-poster.jpg"></video>
+      <video src="#" className="player__video" poster={poster}></video>
 
       <button type="button" className="player__exit">Exit</button>
 
@@ -13,7 +26,7 @@ export default function PlayerScreen() {
             <progress className="player__progress" value="30" max="100"></progress>
             <div className="player__toggler" style={{ left: '30%' }}>Toggler</div>
           </div>
-          <div className="player__time-value">1:30:29</div>
+          <div className="player__time-value">{runtime}</div>
         </div>
 
         <div className="player__controls-row">
@@ -23,7 +36,7 @@ export default function PlayerScreen() {
             </svg>
             <span>Play</span>
           </button>
-          <div className="player__name">Transpotting</div>
+          <div className="player__name">{title}</div>
 
           <button type="button" className="player__full-screen">
             <svg viewBox="0 0 27 27" width="27" height="27">
@@ -36,3 +49,7 @@ export default function PlayerScreen() {
     </div>
   );
 }
+
+PlayerScreen.propTypes = {
+  movies: PropTypes.arrayOf(MovieProp).isRequired,
+};

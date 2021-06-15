@@ -1,9 +1,15 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Logo from '../logo/logo';
-import MovieCardScreen from '../movie-card-screen/movie-card-screen';
 
-export default function WelcomeScreen({ headerMovie, movies }) {
+import MovieProp from '../movie-card-screen/movie-card.prop';
+
+import MovieListScreen from '../movie-list-screen/movie-list-screen';
+import Logo from '../logo/logo';
+
+export default function WelcomeScreen(props) {
+  const { movies } = props;
+  const [headerMovie] = movies;
+
   const {
     title,
     genre,
@@ -105,9 +111,7 @@ export default function WelcomeScreen({ headerMovie, movies }) {
             </li>
           </ul>
 
-          <div className="catalog__films-list">
-            {movies.map((movie) => <MovieCardScreen key={movie.title + movie.movieLink + movie.id} movie={movie} />)}
-          </div>
+          <MovieListScreen movies={movies} />
 
           <div className="catalog__more">
             <button className="catalog__button" type="button">Show more</button>
@@ -127,18 +131,5 @@ export default function WelcomeScreen({ headerMovie, movies }) {
 }
 
 WelcomeScreen.propTypes = {
-  headerMovie: PropTypes.shape({
-    title: PropTypes.string.isRequired,
-    genre: PropTypes.string.isRequired,
-    year: PropTypes.number.isRequired,
-    backgroundImage: PropTypes.string.isRequired,
-    poster: PropTypes.string.isRequired,
-  }).isRequired,
-  movies: PropTypes.arrayOf(
-    PropTypes.shape({
-      id: PropTypes.string.isRequired,
-      title: PropTypes.string.isRequired,
-      movieLink: PropTypes.string.isRequired,
-      poster: PropTypes.string.isRequired,
-    })).isRequired,
+  movies: PropTypes.arrayOf(MovieProp).isRequired,
 };
