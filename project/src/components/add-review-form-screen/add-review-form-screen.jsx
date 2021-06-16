@@ -4,11 +4,12 @@ export default function AddReviewFormScreen() {
   const [userRating, setUserRating] = useState(null);
   const [reviewText, setReviewText] = useState('');
 
-  const handleChange = (evt) => setUserRating(evt.target.value);
+  const handleChangeRating = (evt) => setUserRating(evt.target.value);
+  const handleChangeReviewText = (evt) => setReviewText(evt.target.value);
 
   return (
     <div className="add-review">
-      <form action="#" className="add-review__form" onChange={handleChange}>
+      <form action="#" className="add-review__form" onChange={handleChangeRating}>
         <div className="rating">
           <div className="rating__stars">
             <input className="rating__input" id="star-10" type="radio" name="rating" value="10" />
@@ -49,7 +50,7 @@ export default function AddReviewFormScreen() {
             name="review-text"
             id="review-text"
             placeholder="Review text"
-            onChange={(evt) => setReviewText(evt.target.value)}
+            onChange={handleChangeReviewText}
           >
           </textarea>
           <div className="add-review__submit">

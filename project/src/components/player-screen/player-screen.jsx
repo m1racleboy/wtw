@@ -7,7 +7,7 @@ import MovieProp from '../movie-card-screen/movie-card.prop';
 export default function PlayerScreen(props) {
   const { movies } = props;
   const { id } = useParams();
-  const [movie] = movies.filter((element) => element.id === id);
+  const movie = movies.find((element) => element.id === id);
 
   const {
     poster,

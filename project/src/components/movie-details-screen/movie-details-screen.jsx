@@ -11,7 +11,7 @@ import Logo from '../logo/logo';
 export default function MovieDetailsScreen(props) {
   const { movies } = props;
   const { id } = useParams();
-  const [movie] = movies.filter((element) => element.id === id);
+  const movie = movies.find((element) => element.id === id);
 
   const {
     title,
