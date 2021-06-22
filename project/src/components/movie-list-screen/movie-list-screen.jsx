@@ -11,7 +11,7 @@ export default function MovieListScreen(props) {
 
   return (
     <div className="catalog__films-list">
-      {movies.map((movie) => <MovieCardScreen key={movie.id} movie={movie} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave} active={activeMovie===movie.id}/>)}
+      {movies.map((movie) => <MovieCardScreen key={movie.id} movie={movie} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave} isActive={activeMovie===movie.id}/>)}
     </div>
   );
 }
