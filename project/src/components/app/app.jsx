@@ -2,7 +2,7 @@ import React from 'react';
 import { Switch, Route, BrowserRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
-import MovieProp from '../movie-card-screen/movie-card.prop';
+import MovieProp from '../movie-card-screen/movie.prop';
 
 import WelcomeScreen from '../welcome-screen/welcome-screen';
 import LoginScreen from '../login-screen/login-screen';

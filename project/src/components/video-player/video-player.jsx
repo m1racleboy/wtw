@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 
-import MovieProp from '../movie-card-screen/movie-card.prop';
+import MovieProp from '../movie-card-screen/movie.prop';
 
 const PLAYER_TIMEOUT = 1000;
 

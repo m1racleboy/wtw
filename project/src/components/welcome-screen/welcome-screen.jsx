@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import MovieProp from '../movie-card-screen/movie-card.prop';
+import MovieProp from '../movie-card-screen/movie.prop';
 
 import MovieListScreen from '../movie-list-screen/movie-list-screen';
 import Logo from '../logo/logo';
