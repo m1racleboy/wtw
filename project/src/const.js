@@ -6,3 +6,9 @@ export const AppRoute = {
   REVIEW: '/films/:id/review',
   PLAYER: '/player/:id',
 };
+
+export const Tabs = {
+  OVERVIEW: 'Overview',
+  DETAILS: 'Details',
+  REVIEWS: 'Reviews',
+};
