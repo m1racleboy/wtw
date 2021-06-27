@@ -1,13 +1,25 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 
-import MovieProp from '../movie-card-screen/movie.prop';
+import MovieProp from '../../props/movie.prop';
 
 import MovieListScreen from '../movie-list-screen/movie-list-screen';
+import GenresList from '../genre-list/genres-list';
 import Logo from '../logo/logo';
 
-export default function WelcomeScreen(props) {
-  const { movies } = props;
+import { ALL_GENRES } from '../../const';
+
+function getMoviesByGenre(movies, genre) {
+  if (genre === ALL_GENRES) {
+    return movies;
+  }
+
+  return movies.filter((movie) => movie.genre === genre);
+}
+
+export function WelcomeScreen(props) {
+  const { movies, currentGenre } = props;
   const [headerMovie] = movies;
 
   const {
@@ -77,45 +89,8 @@ export default function WelcomeScreen(props) {
       <div className="page-content">
         <section className="catalog">
           <h2 className="catalog__title visually-hidden">Catalog</h2>
-
-          <ul className="catalog__genres-list">
-            <li className="catalog__genres-item catalog__genres-item--active">
-              <a href="#" className="catalog__genres-link">All genres</a>
-            </li>
-            <li className="catalog__genres-item">
-              <a href="#" className="catalog__genres-link">Comedies</a>
-            </li>
-            <li className="catalog__genres-item">
-              <a href="#" className="catalog__genres-link">Crime</a>
-            </li>
-            <li className="catalog__genres-item">
-              <a href="#" className="catalog__genres-link">Documentary</a>
-            </li>
-            <li className="catalog__genres-item">
-              <a href="#" className="catalog__genres-link">Dramas</a>
-            </li>
-            <li className="catalog__genres-item">
-              <a href="#" className="catalog__genres-link">Horror</a>
-            </li>
-            <li className="catalog__genres-item">
-              <a href="#" className="catalog__genres-link">Kids & Family</a>
-            </li>
-            <li className="catalog__genres-item">
-              <a href="#" className="catalog__genres-link">Romance</a>
-            </li>
-            <li className="catalog__genres-item">
-              <a href="#" className="catalog__genres-link">Sci-Fi</a>
-            </li>
-            <li className="catalog__genres-item">
-              <a href="#" className="catalog__genres-link">Thrillers</a>
-            </li>
-          </ul>
-
-          <MovieListScreen movies={movies} />
-
-          <div className="catalog__more">
-            <button className="catalog__button" type="button">Show more</button>
-          </div>
+          <GenresList />
+          <MovieListScreen movies={getMoviesByGenre(movies, currentGenre)} />
         </section>
 
         <footer className="page-footer">
@@ -130,6 +105,14 @@ export default function WelcomeScreen(props) {
   );
 }
 
+const mapStateToProps = (state) => ({
+  currentGenre: state.currentGenre,
+  movies: state.movies,
+});
+
 WelcomeScreen.propTypes = {
+  currentGenre: PropTypes.string.isRequired,
   movies: PropTypes.arrayOf(MovieProp).isRequired,
 };
+
+export default connect(mapStateToProps)(WelcomeScreen);

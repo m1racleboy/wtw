@@ -1,6 +1,6 @@
 import React from 'react';
 
-import MovieProp from '../movie-card-screen/movie.prop';
+import MovieProp from '../../props/movie.prop';
 
 const ratingMap = new Map();
 

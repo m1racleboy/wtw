@@ -2,15 +2,17 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { Link, useParams } from 'react-router-dom';
 
-import MovieProp from '../movie-card-screen/movie.prop';
-import { Tabs } from '../../const';
+import MovieProp from '../../props/movie.prop';
+import ReviewProp from '../../props/review.prop';
+
+import { MAX_COUNT_SIMILAR_MOVIES, Tabs } from '../../const';
 
 import MovieDetailsTabs from './movie-details-tabs';
 import MovieListScreen from '../movie-list-screen/movie-list-screen';
 import Logo from '../logo/logo';
 
 export default function MovieDetailsScreen(props) {
-  const { movies } = props;
+  const { movies, reviews } = props;
   const { id } = useParams();
   const movie = movies.find((element) => element.id === id);
 
@@ -84,7 +86,7 @@ export default function MovieDetailsScreen(props) {
             <div className="film-card__poster film-card__poster--big">
               <img src={movie.poster} alt={`${title} poster`} width="218" height="327" />
             </div>
-            <MovieDetailsTabs currentTab={currentTab} movie={movie} onSetCurrentTab={handleSetCurrentTab} />
+            <MovieDetailsTabs currentTab={currentTab} movie={movie} reviews={reviews} onSetCurrentTab={handleSetCurrentTab} />
           </div>
         </div>
       </section>
@@ -92,7 +94,7 @@ export default function MovieDetailsScreen(props) {
       <div className="page-content">
         <section className="catalog catalog--like-this">
           <h2 className="catalog__title">More like this</h2>
-          <MovieListScreen movies={movies.filter((similarMovie) => (similarMovie.genre === genre && similarMovie.id !== id))}/>
+          <MovieListScreen movies={movies.filter((similarMovie) => (similarMovie.genre === genre && similarMovie.id !== id)).slice(0, MAX_COUNT_SIMILAR_MOVIES)} />
         </section>
 
         <footer className="page-footer">
@@ -109,4 +111,5 @@ export default function MovieDetailsScreen(props) {
 
 MovieDetailsScreen.propTypes = {
   movies: PropTypes.arrayOf(MovieProp).isRequired,
+  reviews: PropTypes.arrayOf(ReviewProp).isRequired,
 };

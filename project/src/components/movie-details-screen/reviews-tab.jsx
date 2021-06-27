@@ -3,6 +3,8 @@ import PropTypes from 'prop-types';
 import dayjs from 'dayjs';
 import he from 'he';
 
+import ReviewProp from '../../props/review.prop';
+
 export default function DetailsTab(props) {
   const { reviews } = props;
 
@@ -53,12 +55,5 @@ export default function DetailsTab(props) {
 }
 
 DetailsTab.propTypes = {
-  reviews: PropTypes.arrayOf(PropTypes.shape({
-    comment: PropTypes.string.isRequired,
-    rating: PropTypes.number.isRequired,
-    date: PropTypes.instanceOf(Date),
-    user: PropTypes.shape({
-      name: PropTypes.string.isRequired,
-    }),
-  })).isRequired,
+  reviews: PropTypes.arrayOf(ReviewProp).isRequired,
 };

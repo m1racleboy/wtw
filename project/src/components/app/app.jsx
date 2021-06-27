@@ -2,7 +2,8 @@ import React from 'react';
 import { Switch, Route, BrowserRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
-import MovieProp from '../movie-card-screen/movie.prop';
+import MovieProp from '../../props/movie.prop';
+import ReviewProp from '../../props/review.prop';
 
 import WelcomeScreen from '../welcome-screen/welcome-screen';
 import LoginScreen from '../login-screen/login-screen';
@@ -14,19 +15,19 @@ import NotFoundScreen from '../not-found-screen/not-found-screen';
 
 import { AppRoute } from '../../const';
 export default function App(props) {
-  const { movies } = props;
+  const { movies, reviews } = props;
 
   return (
     <BrowserRouter>
       <Switch>
         <Route exact path={AppRoute.ROOT}>
-          <WelcomeScreen movies={movies} />
+          <WelcomeScreen />
         </Route>
         <Route exact path={AppRoute.LOGIN}>
           <LoginScreen />
         </Route>
         <Route exact path={AppRoute.MOVIE}>
-          <MovieDetailsScreen movies={movies} />
+          <MovieDetailsScreen movies={movies} reviews={reviews} />
         </Route>
         <Route exact path={AppRoute.MY_LIST}>
           <MyListScreen movies={movies} />
@@ -47,4 +48,5 @@ export default function App(props) {
 
 App.propTypes = {
   movies: PropTypes.arrayOf(MovieProp).isRequired,
+  reviews: PropTypes.arrayOf(ReviewProp).isRequired,
 };
