@@ -12,3 +12,8 @@ export const Tabs = {
   DETAILS: 'Details',
   REVIEWS: 'Reviews',
 };
+
+export const ALL_GENRES = 'All genres';
+export const MOVIES_COUNT_PER_STEP = 8;
+export const MAX_COUNT_SIMILAR_MOVIES = 4;
+

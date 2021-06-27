@@ -1,18 +1,17 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import MovieProp from '../movie-card-screen/movie.prop';
+import MovieProp from '../../props/movie.prop';
+import ReviewProp from '../../props/review.prop';
 
 import OverviewTab from '../movie-details-screen/overview-tab';
 import DetailsTab from '../movie-details-screen/details-tab';
 import ReviewsTab from '../movie-details-screen/reviews-tab';
 
 import { Tabs } from '../../const';
-import { reviews } from '../../mocks/reviews';
-
 
 export default function MovieDetailsTabs(props) {
-  const { currentTab, movie, onSetCurrentTab } = props;
+  const { currentTab, movie, reviews, onSetCurrentTab } = props;
 
   const getContentFromTab = (tab) => {
     switch (tab) {
@@ -45,6 +44,7 @@ export default function MovieDetailsTabs(props) {
 
 MovieDetailsTabs.propTypes = {
   movie: MovieProp,
+  reviews: PropTypes.arrayOf(ReviewProp).isRequired,
   currentTab: PropTypes.string.isRequired,
   onSetCurrentTab: PropTypes.func.isRequired,
 };

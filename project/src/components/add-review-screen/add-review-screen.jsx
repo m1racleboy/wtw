@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Link, useParams } from 'react-router-dom';
 
-import MovieProp from '../movie-card-screen/movie.prop';
+import MovieProp from '../../props/movie.prop';
 
 import AddReviewFormScreen from '../add-review-form-screen/add-review-form-screen';
 import Logo from '../logo/logo';
