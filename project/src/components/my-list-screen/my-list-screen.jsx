@@ -5,8 +5,9 @@ import MovieProp from '../../props/movie.prop';
 
 import MovieListScreen from '../movie-list-screen/movie-list-screen';
 import Logo from '../logo/logo';
+import { connect } from 'react-redux';
 
-export default function MyListScreen(props) {
+export function MyListScreen(props) {
   const { movies } = props;
 
   return (
@@ -47,3 +48,9 @@ export default function MyListScreen(props) {
 MyListScreen.propTypes = {
   movies: PropTypes.arrayOf(MovieProp).isRequired,
 };
+
+const mapStateToProps = (state) => ({
+  movies: state.movies,
+});
+
+export default connect(mapStateToProps)(MyListScreen);

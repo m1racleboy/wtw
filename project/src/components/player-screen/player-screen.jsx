@@ -3,11 +3,12 @@ import PropTypes from 'prop-types';
 import { useParams } from 'react-router-dom';
 
 import MovieProp from '../../props/movie.prop';
+import { connect } from 'react-redux';
 
-export default function PlayerScreen(props) {
+export function PlayerScreen(props) {
   const { movies } = props;
   const { id } = useParams();
-  const movie = movies.find((element) => element.id === id);
+  const movie = movies.find((element) => element.id === +id);
 
   const {
     poster,
@@ -53,3 +54,9 @@ export default function PlayerScreen(props) {
 PlayerScreen.propTypes = {
   movies: PropTypes.arrayOf(MovieProp).isRequired,
 };
+
+const mapStateToProps = (state) => ({
+  movies: state.movies,
+});
+
+export default connect(mapStateToProps)(PlayerScreen);

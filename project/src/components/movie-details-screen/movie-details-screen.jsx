@@ -10,15 +10,17 @@ import { MAX_COUNT_SIMILAR_MOVIES, Tabs } from '../../const';
 import MovieDetailsTabs from './movie-details-tabs';
 import MovieListScreen from '../movie-list-screen/movie-list-screen';
 import Logo from '../logo/logo';
+import { connect } from 'react-redux';
 
-export default function MovieDetailsScreen(props) {
+export function MovieDetailsScreen(props) {
   const { movies, reviews } = props;
   const { id } = useParams();
-  const movie = movies.find((element) => element.id === id);
+  const movie = movies.find((element) => element.id === +id);
 
   const {
     title,
     backgroundImage,
+    backgroundColor,
     genre,
     year,
   } = movie;
@@ -31,7 +33,7 @@ export default function MovieDetailsScreen(props) {
 
   return (
     <>
-      <section className="film-card film-card--full">
+      <section style={{ backgroundColor: `${backgroundColor}` }} className="film-card film-card--full">
         <div className="film-card__hero">
           <div className="film-card__bg">
             <img src={backgroundImage} alt={title} />
@@ -94,7 +96,7 @@ export default function MovieDetailsScreen(props) {
       <div className="page-content">
         <section className="catalog catalog--like-this">
           <h2 className="catalog__title">More like this</h2>
-          <MovieListScreen movies={movies.filter((similarMovie) => (similarMovie.genre === genre && similarMovie.id !== id)).slice(0, MAX_COUNT_SIMILAR_MOVIES)} />
+          <MovieListScreen movies={movies.filter((similarMovie) => (similarMovie.genre === genre && similarMovie.id !== +id)).slice(0, MAX_COUNT_SIMILAR_MOVIES)} />
         </section>
 
         <footer className="page-footer">
@@ -113,3 +115,9 @@ MovieDetailsScreen.propTypes = {
   movies: PropTypes.arrayOf(MovieProp).isRequired,
   reviews: PropTypes.arrayOf(ReviewProp).isRequired,
 };
+
+const mapStateToProps = (state) => ({
+  movies: state.movies,
+});
+
+export default connect(mapStateToProps)(MovieDetailsScreen);

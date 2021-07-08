@@ -6,11 +6,12 @@ import MovieProp from '../../props/movie.prop';
 
 import AddReviewFormScreen from '../add-review-form-screen/add-review-form-screen';
 import Logo from '../logo/logo';
+import { connect } from 'react-redux';
 
-export default function AddReviewScreen(props) {
+export function AddReviewScreen(props) {
   const { movies } = props;
   const { id } = useParams();
-  const movie = movies.find((element) => element.id === id);
+  const movie = movies.find((element) => element.id === +id);
 
   const {
     title,
@@ -66,3 +67,9 @@ export default function AddReviewScreen(props) {
 AddReviewScreen.propTypes = {
   movies: PropTypes.arrayOf(MovieProp).isRequired,
 };
+
+const mapStateToProps = (state) => ({
+  movies: state.movies,
+});
+
+export default connect(mapStateToProps)(AddReviewScreen);

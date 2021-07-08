@@ -30,6 +30,12 @@ export function MovieListScreen(props) {
   );
 }
 
+MovieListScreen.propTypes = {
+  movies: PropTypes.arrayOf(movieProp).isRequired,
+  renderedMoviesCount: PropTypes.number.isRequired,
+  onMoviesCountStepChange: PropTypes.func.isRequired,
+};
+
 const mapStateToProps = (state) => ({
   renderedMoviesCount: state.renderedMoviesCount,
 });
@@ -41,9 +47,3 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(MovieListScreen);
-
-MovieListScreen.propTypes = {
-  movies: PropTypes.arrayOf(movieProp).isRequired,
-  renderedMoviesCount: PropTypes.number.isRequired,
-  onMoviesCountStepChange: PropTypes.func.isRequired,
-};

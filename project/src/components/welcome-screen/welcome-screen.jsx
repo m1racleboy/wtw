@@ -8,7 +8,9 @@ import MovieListScreen from '../movie-list-screen/movie-list-screen';
 import GenresList from '../genre-list/genres-list';
 import Logo from '../logo/logo';
 
-import { ALL_GENRES } from '../../const';
+import { ALL_GENRES, AuthorizationStatus } from '../../const';
+
+export const isCheckedAuth = (authorizationStatus) => authorizationStatus === AuthorizationStatus.UNKNOWN;
 
 function getMoviesByGenre(movies, genre) {
   if (genre === ALL_GENRES) {
@@ -19,7 +21,7 @@ function getMoviesByGenre(movies, genre) {
 }
 
 export function WelcomeScreen(props) {
-  const { movies, currentGenre } = props;
+  const { currentGenre, movies } = props;
   const [headerMovie] = movies;
 
   const {
@@ -105,14 +107,14 @@ export function WelcomeScreen(props) {
   );
 }
 
-const mapStateToProps = (state) => ({
-  currentGenre: state.currentGenre,
-  movies: state.movies,
-});
-
 WelcomeScreen.propTypes = {
   currentGenre: PropTypes.string.isRequired,
   movies: PropTypes.arrayOf(MovieProp).isRequired,
 };
+
+const mapStateToProps = (state) => ({
+  currentGenre: state.currentGenre,
+  movies: state.movies,
+});
 
 export default connect(mapStateToProps)(WelcomeScreen);
