@@ -11,9 +11,10 @@ import MovieListScreen from '../movie-list-screen/movie-list-screen';
 import Logo from '../logo/logo';
 import UserStatus from '../user-status/user-status';
 import { connect } from 'react-redux';
+import reviewProp from '../../props/review.prop';
 
 export function MovieDetailsScreen(props) {
-  const { movies, authorizationStatus } = props;
+  const { movies, authorizationStatus, reviews, similarMovies } = props;
   const { id } = useParams();
   const movie = movies.find((element) => element.id === +id);
 
@@ -80,7 +81,7 @@ export function MovieDetailsScreen(props) {
             <div className="film-card__poster film-card__poster--big">
               <img src={movie.poster} alt={`${title} poster`} width="218" height="327" />
             </div>
-            <MovieDetailsTabs currentTab={currentTab} movie={movie} onSetCurrentTab={handleSetCurrentTab} />
+            <MovieDetailsTabs currentTab={currentTab} movie={movie} reviews={reviews} onSetCurrentTab={handleSetCurrentTab} />
           </div>
         </div>
       </section>
@@ -88,7 +89,7 @@ export function MovieDetailsScreen(props) {
       <div className="page-content">
         <section className="catalog catalog--like-this">
           <h2 className="catalog__title">More like this</h2>
-          <MovieListScreen movies={movies.filter((similarMovie) => (similarMovie.genre === genre && similarMovie.id !== +id)).slice(0, MAX_COUNT_SIMILAR_MOVIES)} />
+          <MovieListScreen movies={similarMovies.filter((similarMovie) => similarMovie.id !== movie.id).slice(0, MAX_COUNT_SIMILAR_MOVIES)} />
         </section>
 
         <footer className="page-footer">
@@ -106,11 +107,15 @@ export function MovieDetailsScreen(props) {
 MovieDetailsScreen.propTypes = {
   movies: PropTypes.arrayOf(MovieProp).isRequired,
   authorizationStatus: PropTypes.string.isRequired,
+  reviews: PropTypes.arrayOf(reviewProp).isRequired,
+  similarMovies: PropTypes.arrayOf(MovieProp).isRequired,
 };
 
 const mapStateToProps = (state) => ({
   movies: state.movies,
   authorizationStatus: state.authorizationStatus,
+  reviews: state.reviews,
+  similarMovies: state.similarMovies,
 });
 
 export default connect(mapStateToProps)(MovieDetailsScreen);

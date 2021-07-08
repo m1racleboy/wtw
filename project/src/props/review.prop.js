@@ -3,9 +3,9 @@ import PropTypes from 'prop-types';
 export default PropTypes.shape({
   comment: PropTypes.string.isRequired,
   rating: PropTypes.number.isRequired,
-  date: PropTypes.instanceOf(Date),
+  date: PropTypes.string.isRequired,
   user: PropTypes.shape({
-    id: PropTypes.string.isRequired,
+    id: PropTypes.number.isRequired,
     name: PropTypes.string.isRequired,
   }),
 });

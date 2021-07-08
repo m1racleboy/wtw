@@ -3,14 +3,20 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { AppRoute, AuthorizationStatus } from '../../const';
 import { connect } from 'react-redux';
-import { logout } from '../../store/api-actions';
+import { fetchFavoriteMovies, logout } from '../../store/api-actions';
 
 export function UserStatus(props) {
-  const { authorizationStatus, signOut } = props;
+  const { authorizationStatus, signOut, onMyListClick } = props;
   const handleLogout = (evt) => {
     evt.preventDefault();
 
     signOut();
+  };
+
+  const handleMyListClick = (evt) => {
+    evt.preventDefault();
+
+    onMyListClick();
   };
 
   if (authorizationStatus === AuthorizationStatus.AUTH) {
@@ -18,7 +24,7 @@ export function UserStatus(props) {
       <ul className="user-block">
         <li className="user-block__item">
           <div className="user-block__avatar">
-            <Link to={AppRoute.MY_LIST}><img src="img/avatar.jpg" alt="User avatar" width="63" height="63" /></Link>
+            <Link to={AppRoute.MY_LIST} onClick={handleMyListClick}><img src="img/avatar.jpg" alt="User avatar" width="63" height="63" /></Link>
           </div>
         </li>
         <li className="user-block__item">
@@ -48,6 +54,9 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
   signOut() {
     dispatch(logout());
+  },
+  onMyListClick() {
+    dispatch(fetchFavoriteMovies());
   },
 });
 

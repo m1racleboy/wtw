@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import dayjs from 'dayjs';
-import he from 'he';
 
 import ReviewProp from '../../props/review.prop';
 
@@ -16,7 +15,7 @@ export default function DetailsTab(props) {
             <React.Fragment key={review.id}>
               <div className="review">
                 <blockquote className="review__quote">
-                  <p className="review__text">{he.encode(review.comment)}</p>
+                  <p className="review__text">{review.comment}</p>
 
                   <footer className="review__details">
                     <cite className="review__author">{review.user.name}</cite>
@@ -36,7 +35,7 @@ export default function DetailsTab(props) {
             <React.Fragment key={review.id}>
               <div className="review">
                 <blockquote className="review__quote">
-                  <p className="review__text">{he.encode(review.comment)}</p>
+                  <p className="review__text">{review.comment}</p>
 
                   <footer className="review__details">
                     <cite className="review__author">{review.user.name}</cite>

@@ -6,9 +6,10 @@ export const ActionType = {
   LOGOUT: 'logout',
   LOAD_MOVIES: 'loadMovies',
   LOAD_REVIEWS: 'loadReviews',
-  LOAD_HEADER_MOVIE: 'loadPromo',
+  LOAD_HEADER_MOVIE: 'loadHeaderMovie',
   LOAD_SIMILAR_MOVIE: 'loadSimilarMovie',
   LOAD_FAVORITE_MOVIES: 'loadFavoriteMovies',
+  REDIRECT_TO_ROUTE: 'redirectToRoute',
 };
 
 export const ActionCreator = {
@@ -48,5 +49,9 @@ export const ActionCreator = {
   }),
   logout: () => ({
     type: ActionType.LOGOUT,
+  }),
+  replaceRoute: (url) => ({
+    type: ActionType.REDIRECT_TO_ROUTE,
+    payload: url,
   }),
 };

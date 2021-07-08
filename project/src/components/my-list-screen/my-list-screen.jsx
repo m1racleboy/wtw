@@ -9,7 +9,7 @@ import UserStatus from '../user-status/user-status';
 import { connect } from 'react-redux';
 
 export function MyListScreen(props) {
-  const { movies } = props;
+  const { favoriteMovies } = props;
 
   return (
     <div className="user-page">
@@ -23,7 +23,7 @@ export function MyListScreen(props) {
 
       <section className="catalog">
         <h2 className="catalog__title visually-hidden">Catalog</h2>
-        <MovieListScreen movies={movies.filter((movie) => movie.isFavorite)} />
+        <MovieListScreen movies={favoriteMovies} />
       </section>
 
       <footer className="page-footer">
@@ -38,11 +38,11 @@ export function MyListScreen(props) {
 }
 
 MyListScreen.propTypes = {
-  movies: PropTypes.arrayOf(MovieProp).isRequired,
+  favoriteMovies: PropTypes.arrayOf(MovieProp).isRequired,
 };
 
 const mapStateToProps = (state) => ({
-  movies: state.movies,
+  favoriteMovies: state.favoriteMovies,
 });
 
 export default connect(mapStateToProps)(MyListScreen);

@@ -17,7 +17,7 @@ export const fetchHeaderMovie = () => (dispatch, _getState, api) => (
 
 export const fetchSimilarMovies = (id) => (dispatch, _getState, api) => (
   api.get(`${APIRoute.MOVIES}/${id}/similar`)
-    .then(({ data }) => dispatch(ActionCreator.loadSimilarMovies(data)))
+    .then(({ data }) => dispatch(ActionCreator.loadSimilarMovies(adaptMoviesToClient(data))))
 );
 
 export const fetchMovieReviews = (id) => (dispatch, _getState, api) => (
