@@ -6,6 +6,7 @@ import MovieProp from '../../props/movie.prop';
 
 import MovieListScreen from '../movie-list-screen/movie-list-screen';
 import GenresList from '../genre-list/genres-list';
+import UserStatus from '../user-status/user-status';
 import Logo from '../logo/logo';
 
 import { ALL_GENRES, AuthorizationStatus } from '../../const';
@@ -21,8 +22,7 @@ function getMoviesByGenre(movies, genre) {
 }
 
 export function WelcomeScreen(props) {
-  const { currentGenre, movies } = props;
-  const [headerMovie] = movies;
+  const { currentGenre, movies, authorizationStatus, headerMovie } = props;
 
   const {
     title,
@@ -43,17 +43,7 @@ export function WelcomeScreen(props) {
 
         <header className="page-header film-card__head">
           <Logo />
-
-          <ul className="user-block">
-            <li className="user-block__item">
-              <div className="user-block__avatar">
-                <img src="img/avatar.jpg" alt="User avatar" width="63" height="63" />
-              </div>
-            </li>
-            <li className="user-block__item">
-              <a className="user-block__link">Sign out</a>
-            </li>
-          </ul>
+          <UserStatus />
         </header>
 
         <div className="film-card__wrap">
@@ -76,12 +66,13 @@ export function WelcomeScreen(props) {
                   </svg>
                   <span>Play</span>
                 </button>
-                <button className="btn btn--list film-card__button" type="button">
-                  <svg viewBox="0 0 19 20" width="19" height="20">
-                    <use xlinkHref="#add" />
-                  </svg>
-                  <span>My list</span>
-                </button>
+                {authorizationStatus === AuthorizationStatus.AUTH &&
+                  <button className="btn btn--list film-card__button" type="button">
+                    <svg viewBox="0 0 19 20" width="19" height="20">
+                      <use xlinkHref="#add" />
+                    </svg>
+                    <span>My list</span>
+                  </button>}
               </div>
             </div>
           </div>
@@ -110,11 +101,15 @@ export function WelcomeScreen(props) {
 WelcomeScreen.propTypes = {
   currentGenre: PropTypes.string.isRequired,
   movies: PropTypes.arrayOf(MovieProp).isRequired,
+  authorizationStatus: PropTypes.string.isRequired,
+  headerMovie: MovieProp,
 };
 
 const mapStateToProps = (state) => ({
   currentGenre: state.currentGenre,
   movies: state.movies,
+  authorizationStatus: state.authorizationStatus,
+  headerMovie: state.headerMovie,
 });
 
 export default connect(mapStateToProps)(WelcomeScreen);

@@ -3,17 +3,17 @@ import PropTypes from 'prop-types';
 import { Link, useParams } from 'react-router-dom';
 
 import MovieProp from '../../props/movie.prop';
-import ReviewProp from '../../props/review.prop';
 
-import { MAX_COUNT_SIMILAR_MOVIES, Tabs } from '../../const';
+import { AuthorizationStatus, MAX_COUNT_SIMILAR_MOVIES, Tabs } from '../../const';
 
 import MovieDetailsTabs from './movie-details-tabs';
 import MovieListScreen from '../movie-list-screen/movie-list-screen';
 import Logo from '../logo/logo';
+import UserStatus from '../user-status/user-status';
 import { connect } from 'react-redux';
 
 export function MovieDetailsScreen(props) {
-  const { movies, reviews } = props;
+  const { movies, authorizationStatus } = props;
   const { id } = useParams();
   const movie = movies.find((element) => element.id === +id);
 
@@ -43,17 +43,7 @@ export function MovieDetailsScreen(props) {
 
           <header className="page-header film-card__head">
             <Logo />
-
-            <ul className="user-block">
-              <li className="user-block__item">
-                <div className="user-block__avatar">
-                  <img src="img/avatar.jpg" alt="User avatar" width="63" height="63" />
-                </div>
-              </li>
-              <li className="user-block__item">
-                <a className="user-block__link">Sign out</a>
-              </li>
-            </ul>
+            <UserStatus />
           </header>
 
           <div className="film-card__wrap">
@@ -71,13 +61,15 @@ export function MovieDetailsScreen(props) {
                   </svg>
                   <span>Play</span>
                 </button>
-                <button className="btn btn--list film-card__button" type="button">
-                  <svg viewBox="0 0 19 20" width="19" height="20">
-                    <use xlinkHref="#add"></use>
-                  </svg>
-                  <span>My list</span>
-                </button>
-                <Link to={`/films/${id}/review`} className="btn film-card__button">Add review</Link>
+                {authorizationStatus === AuthorizationStatus.AUTH &&
+                  <button className="btn btn--list film-card__button" type="button">
+                    <svg viewBox="0 0 19 20" width="19" height="20">
+                      <use xlinkHref="#add" />
+                    </svg>
+                    <span>My list</span>
+                  </button>}
+                {authorizationStatus === AuthorizationStatus.AUTH &&
+                  <Link to={`/films/${id}/review`} className="btn film-card__button">Add review</Link>}
               </div>
             </div>
           </div>
@@ -88,7 +80,7 @@ export function MovieDetailsScreen(props) {
             <div className="film-card__poster film-card__poster--big">
               <img src={movie.poster} alt={`${title} poster`} width="218" height="327" />
             </div>
-            <MovieDetailsTabs currentTab={currentTab} movie={movie} reviews={reviews} onSetCurrentTab={handleSetCurrentTab} />
+            <MovieDetailsTabs currentTab={currentTab} movie={movie} onSetCurrentTab={handleSetCurrentTab} />
           </div>
         </div>
       </section>
@@ -113,11 +105,12 @@ export function MovieDetailsScreen(props) {
 
 MovieDetailsScreen.propTypes = {
   movies: PropTypes.arrayOf(MovieProp).isRequired,
-  reviews: PropTypes.arrayOf(ReviewProp).isRequired,
+  authorizationStatus: PropTypes.string.isRequired,
 };
 
 const mapStateToProps = (state) => ({
   movies: state.movies,
+  authorizationStatus: state.authorizationStatus,
 });
 
 export default connect(mapStateToProps)(MovieDetailsScreen);

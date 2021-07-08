@@ -1,7 +1,10 @@
 import React from 'react';
-import { Switch, Route, BrowserRouter } from 'react-router-dom';
+import { Switch, Route, Router as BrowserRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+
+import browserHistory from '../../browser-history';
+import PrivateRoute from '../private-route/private-route';
 
 import WelcomeScreen from '../welcome-screen/welcome-screen';
 import LoginScreen from '../login-screen/login-screen';
@@ -26,23 +29,28 @@ export function App(props) {
   }
 
   return (
-    <BrowserRouter>
+    <BrowserRouter history={browserHistory}>
       <Switch>
         <Route exact path={AppRoute.ROOT}>
           <WelcomeScreen />
         </Route>
-        <Route exact path={AppRoute.LOGIN}>
-          <LoginScreen />
+        <Route exact path={AppRoute.LOGIN} render={() => <LoginScreen />}>
         </Route>
         <Route exact path={AppRoute.MOVIE}>
           <MovieDetailsScreen />
         </Route>
-        <Route exact path={AppRoute.MY_LIST}>
-          <MyListScreen />
-        </Route>
-        <Route exact path={AppRoute.REVIEW}>
-          <AddReviewScreen />
-        </Route>
+        <PrivateRoute
+          exact
+          path={AppRoute.MY_LIST}
+          render={() => <MyListScreen />}
+        >
+        </PrivateRoute>
+        <PrivateRoute
+          exact
+          path={AppRoute.REVIEW}
+          render={() => <AddReviewScreen />}
+        >
+        </PrivateRoute>
         <Route exact path={AppRoute.PLAYER}>
           <PlayerScreen />
         </Route>

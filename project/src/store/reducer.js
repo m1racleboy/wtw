@@ -6,6 +6,10 @@ const initialState = {
   movies: [],
   renderedMoviesCount: MOVIES_COUNT_PER_STEP,
   authorizationStatus: AuthorizationStatus.UNKNOWN,
+  headerMovie: {},
+  similarMovies: [],
+  reviews: [],
+  favoriteMovies: [],
   isDataLoaded: false,
 };
 
@@ -16,6 +20,26 @@ const reducer = (state = initialState, action) => {
         ...state,
         movies: action.payload,
         isDataLoaded: true,
+      };
+    case ActionType.LOAD_REVIEWS:
+      return {
+        ...state,
+        reviews: action.payload,
+      };
+    case ActionType.LOAD_HEADER_MOVIE:
+      return {
+        ...state,
+        headerMovie: action.payload,
+      };
+    case ActionType.LOAD_SIMILAR_MOVIE:
+      return {
+        ...state,
+        similarMovies: action.payload,
+      };
+    case ActionType.LOAD_FAVORITE_MOVIES:
+      return {
+        ...state,
+        favoriteMovies: action.payload,
       };
     case ActionType.CHANGE_CURRENT_GENRE:
       return {

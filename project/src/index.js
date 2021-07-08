@@ -5,13 +5,12 @@ import thunk from 'redux-thunk';
 import { createAPI } from './services/api';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import { Provider } from 'react-redux';
-
 import { reducer } from './store/reducer';
 
 import App from './components/app/app';
 
 import { ActionCreator } from './store/action';
-import { checkAuth, fetchMovieList } from './store/api-actions';
+import { checkAuth, fetchMovieList, fetchHeaderMovie } from './store/api-actions';
 import { AuthorizationStatus } from './const';
 
 const api = createAPI(
@@ -27,6 +26,7 @@ const store = createStore(
 
 store.dispatch(checkAuth());
 store.dispatch(fetchMovieList());
+store.dispatch(fetchHeaderMovie());
 
 ReactDOM.render(
   <React.StrictMode>
