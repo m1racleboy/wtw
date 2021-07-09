@@ -85,6 +85,11 @@ const reducer = (state = initialState, action) => {
         ...state,
         authorizationStatus: AuthorizationStatus.NO_AUTH,
       };
+    case ActionType.POST_REVIEW:
+      return {
+        ...state,
+        reviews: state.reviews.push(action.payload),
+      };
     default:
       return state;
   }

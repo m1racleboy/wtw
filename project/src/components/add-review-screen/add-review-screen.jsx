@@ -17,11 +17,12 @@ export function AddReviewScreen(props) {
   const {
     title,
     backgroundImage,
+    backgroundColor,
     poster,
   } = movie;
 
   return (
-    <section className="film-card film-card--full">
+    <section className="film-card film-card--full" style={{ backgroundColor: `${backgroundColor}` }}>
       <div className="film-card__header">
         <div className="film-card__bg">
           <img src={backgroundImage} alt={title} />

@@ -10,6 +10,7 @@ export const ActionType = {
   LOAD_SIMILAR_MOVIE: 'loadSimilarMovie',
   LOAD_FAVORITE_MOVIES: 'loadFavoriteMovies',
   REDIRECT_TO_ROUTE: 'redirectToRoute',
+  POST_REVIEW: 'postReview',
 };
 
 export const ActionCreator = {
@@ -53,5 +54,9 @@ export const ActionCreator = {
   replaceRoute: (url) => ({
     type: ActionType.REDIRECT_TO_ROUTE,
     payload: url,
+  }),
+  postReview: (review) => ({
+    type: ActionType.POST_REVIEW,
+    payload: review,
   }),
 };

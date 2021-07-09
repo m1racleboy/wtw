@@ -31,6 +31,12 @@ export const fetchFavoriteMovies = () => (dispatch, _getState, api) => (
     .then(({ data }) => dispatch(ActionCreator.loadFavoriteMovies(data)))
 );
 
+export const postReview = ({ id, comment, rating }) => (dispatch, _getState, api) => (
+  api.post(`${APIRoute.REVIEWS}/${id}`, { comment, rating })
+    .then(() => dispatch(browserHistory.length > 1 ? browserHistory.goBack() : ActionCreator.replaceRoute(AppRoute.ROOT)))
+    .catch((err) => toast.error(err.message))
+);
+
 export const checkAuth = () => (dispatch, _getState, api) => (
   api.get(APIRoute.LOGIN)
     .then(() => dispatch(ActionCreator.requireAuthorization(AuthorizationStatus.AUTH)))
@@ -41,7 +47,7 @@ export const login = ({ login: email, password }) => (dispatch, _getState, api) 
   api.post(APIRoute.LOGIN, { email, password })
     .then(({ data }) => localStorage.setItem('token', data.token))
     .then(() => dispatch(ActionCreator.requireAuthorization(AuthorizationStatus.AUTH)))
-    .then(() => dispatch(browserHistory.length >= 1 ? browserHistory.goBack() : ActionCreator.replaceRoute(AppRoute.ROOT)))
+    .then(() => dispatch(ActionCreator.replaceRoute(AppRoute.ROOT)))
     .catch((err) => toast.error(err.message))
 );
 
