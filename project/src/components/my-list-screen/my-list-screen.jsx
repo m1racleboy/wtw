@@ -9,7 +9,7 @@ import { fetchFavoriteMovies } from '../../store/api-actions';
 export default function MyListScreen(props) {
 
   const dispatch = useDispatch();
-  const favoriteMovies = useSelector((state) => state.reviews);
+  const favoriteMovies = useSelector((state) => state.favoriteMovies);
   useEffect(() => {
     dispatch(fetchFavoriteMovies());
   }, []);

@@ -22,7 +22,7 @@ export function UserStatus(props) {
           </div>
         </li>
         <li className="user-block__item">
-          <Link className="user-block__link" onClick={handleLogout}>Sign out</Link>
+          <a className="user-block__link" onClick={handleLogout}>Sign out</a>
         </li>
       </ul>
     );

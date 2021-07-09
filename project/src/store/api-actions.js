@@ -2,6 +2,7 @@ import { ActionCreator } from './action';
 import { AuthorizationStatus, APIRoute, AppRoute } from '../const';
 import { adaptMoviesToClient, adaptMovieToClient } from './adapter';
 import { toast } from 'react-toastify';
+import browserHistory from '../browser-history';
 
 export const fetchMovieList = () => (dispatch, _getState, api) => (
   api.get(APIRoute.MOVIES)
@@ -40,12 +41,12 @@ export const login = ({ login: email, password }) => (dispatch, _getState, api) 
   api.post(APIRoute.LOGIN, { email, password })
     .then(({ data }) => localStorage.setItem('token', data.token))
     .then(() => dispatch(ActionCreator.requireAuthorization(AuthorizationStatus.AUTH)))
-    .then(() => dispatch(ActionCreator.replaceRoute(AppRoute.ROOT)))
+    .then(() => dispatch(browserHistory.length >= 1 ? browserHistory.goBack() : ActionCreator.replaceRoute(AppRoute.ROOT)))
     .catch((err) => toast.error(err.message))
 );
 
 export const logout = () => (dispatch, _getState, api) => (
-  api.delete(APIRoute.LOGIN)
+  api.delete(APIRoute.LOGOUT)
     .then(() => localStorage.removeItem('token'))
     .then(() => dispatch(ActionCreator.logout()))
     .then(() => dispatch(ActionCreator.replaceRoute(AppRoute.ROOT)))

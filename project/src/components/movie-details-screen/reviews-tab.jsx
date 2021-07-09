@@ -12,7 +12,7 @@ export default function DetailsTab(props) {
   const reviews = useSelector((state) => state.reviews);
   useEffect(() => {
     dispatch(fetchMovieReviews(id));
-  }, []);
+  }, [id]);
 
   return (
     <div className="film-card__reviews film-card__row">
