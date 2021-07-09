@@ -1,15 +1,18 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-
-import MovieProp from '../../props/movie.prop';
+import React, { useEffect } from 'react';
 
 import MovieListScreen from '../movie-list-screen/movie-list-screen';
 import Logo from '../logo/logo';
 import UserStatus from '../user-status/user-status';
-import { connect } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchFavoriteMovies } from '../../store/api-actions';
 
-export function MyListScreen(props) {
-  const { favoriteMovies } = props;
+export default function MyListScreen(props) {
+
+  const dispatch = useDispatch();
+  const favoriteMovies = useSelector((state) => state.reviews);
+  useEffect(() => {
+    dispatch(fetchFavoriteMovies());
+  }, []);
 
   return (
     <div className="user-page">
@@ -36,13 +39,3 @@ export function MyListScreen(props) {
     </div >
   );
 }
-
-MyListScreen.propTypes = {
-  favoriteMovies: PropTypes.arrayOf(MovieProp).isRequired,
-};
-
-const mapStateToProps = (state) => ({
-  favoriteMovies: state.favoriteMovies,
-});
-
-export default connect(mapStateToProps)(MyListScreen);

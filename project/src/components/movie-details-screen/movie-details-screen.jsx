@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { Link, useParams } from 'react-router-dom';
 
@@ -10,11 +10,11 @@ import MovieDetailsTabs from './movie-details-tabs';
 import MovieListScreen from '../movie-list-screen/movie-list-screen';
 import Logo from '../logo/logo';
 import UserStatus from '../user-status/user-status';
-import { connect } from 'react-redux';
-import reviewProp from '../../props/review.prop';
+import { connect, useDispatch, useSelector } from 'react-redux';
+import { fetchSimilarMovies } from '../../store/api-actions';
 
 export function MovieDetailsScreen(props) {
-  const { movies, authorizationStatus, reviews, similarMovies } = props;
+  const { movies, authorizationStatus } = props;
   const { id } = useParams();
   const movie = movies.find((element) => element.id === +id);
 
@@ -27,6 +27,11 @@ export function MovieDetailsScreen(props) {
   } = movie;
 
   const [currentTab, setCurrentTab] = useState(Tabs.OVERVIEW);
+  const dispatch = useDispatch();
+  const similarMovies = useSelector((state) => state.similarMovies);
+  useEffect(() => {
+    dispatch(fetchSimilarMovies(id));
+  }, []);
 
   const handleSetCurrentTab = (tab) => {
     setCurrentTab(tab);
@@ -81,7 +86,7 @@ export function MovieDetailsScreen(props) {
             <div className="film-card__poster film-card__poster--big">
               <img src={movie.poster} alt={`${title} poster`} width="218" height="327" />
             </div>
-            <MovieDetailsTabs currentTab={currentTab} movie={movie} reviews={reviews} onSetCurrentTab={handleSetCurrentTab} />
+            <MovieDetailsTabs currentTab={currentTab} movie={movie} onSetCurrentTab={handleSetCurrentTab} />
           </div>
         </div>
       </section>
@@ -107,15 +112,11 @@ export function MovieDetailsScreen(props) {
 MovieDetailsScreen.propTypes = {
   movies: PropTypes.arrayOf(MovieProp).isRequired,
   authorizationStatus: PropTypes.string.isRequired,
-  reviews: PropTypes.arrayOf(reviewProp).isRequired,
-  similarMovies: PropTypes.arrayOf(MovieProp).isRequired,
 };
 
 const mapStateToProps = (state) => ({
   movies: state.movies,
   authorizationStatus: state.authorizationStatus,
-  reviews: state.reviews,
-  similarMovies: state.similarMovies,
 });
 
 export default connect(mapStateToProps)(MovieDetailsScreen);
