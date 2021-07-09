@@ -1,19 +1,25 @@
-import React, { useRef } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { login } from '../../store/api-actions';
 import Logo from '../logo/logo';
+import { useInput } from '../../hooks/useInput';
+
+const EMAIL_MIN_LENGTH = 10;
+const PASSWORD_MIN_LENGTH = 3;
+const EMAIL_MAX_LENGTH = 50;
+const PASSWORD_MAX_LENGTH = 20;
 
 export function LoginScreen({ onSubmit }) {
-  const loginRef = useRef();
-  const passwordRef = useRef();
+  const email = useInput('', { isEmpty: true, minLength: EMAIL_MIN_LENGTH, maxLength: EMAIL_MAX_LENGTH, isEmail: true });
+  const password = useInput('', { isEmpty: true, minLength: PASSWORD_MIN_LENGTH, maxLength: PASSWORD_MAX_LENGTH });
 
   const handleSubmit = (evt) => {
     evt.preventDefault();
 
     onSubmit({
-      login: loginRef.current.value,
-      password: passwordRef.current.value,
+      login: email.value,
+      password: password.value,
     });
   };
 
@@ -33,8 +39,14 @@ export function LoginScreen({ onSubmit }) {
         >
           <div className="sign-in__fields">
             <div className="sign-in__field">
+              {(email.isDirty && email.isEmpty) && <div style={{ color: 'white' }}>Поле логина не может быть пустым</div>}
+              {(email.isDirty && email.minLengthError) && <div style={{ color: 'white' }}>Слишком короткий логин, осталось: {EMAIL_MIN_LENGTH - email.value.length}</div>}
+              {(email.isDirty && email.maxLengthError) && <div style={{ color: 'white' }}>Слишком длинный логин, превышен на: {EMAIL_MAX_LENGTH - email.value.length}</div>}
+              {(email.isDirty && email.emailError) && <div style={{ color: 'white' }}>Некорректный email</div>}
               <input
-                ref={loginRef}
+                value={email.value}
+                onChange={(e) => email.onChange(e)}
+                onBlur={(e) => email.onBlur(e)}
                 className="sign-in__input"
                 type="email"
                 placeholder="Email address"
@@ -44,8 +56,13 @@ export function LoginScreen({ onSubmit }) {
               <label className="sign-in__label visually-hidden" htmlFor="user-email">Email address</label>
             </div>
             <div className="sign-in__field">
+              {(password.isDirty && password.isEmpty) && <div style={{ color: 'white' }}>Поле пароля не может быть пустым</div>}
+              {(password.isDirty && password.minLengthError) && <div style={{ color: 'white' }}>Слишком короткий пароль, осталось: {PASSWORD_MIN_LENGTH - password.value.length}</div>}
+              {(password.isDirty && password.maxLengthError) && <div style={{ color: 'white' }}>Слишком длинный пароль, осталось: {PASSWORD_MAX_LENGTH - password.value.length}</div>}
               <input
-                ref={passwordRef}
+                value={password.value}
+                onChange={(e) => password.onChange(e)}
+                onBlur={(e) => password.onBlur(e)}
                 className="sign-in__input"
                 type="password" placeholder="Password"
                 name="user-password"
@@ -58,6 +75,7 @@ export function LoginScreen({ onSubmit }) {
             <button
               className="sign-in__btn"
               type="submit"
+              disabled={!email.inputValid || !password.inputValid}
             >
               Sign in
             </button>
@@ -72,7 +90,7 @@ export function LoginScreen({ onSubmit }) {
           <p>© 2019 What to watch Ltd.</p>
         </div>
       </footer>
-    </div>
+    </div >
   );
 }
 
