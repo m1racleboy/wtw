@@ -11,13 +11,13 @@ export function PlayerScreen(props) {
   const movie = movies.find((element) => element.id === +id);
 
   const {
-    poster,
+    previewImage,
     runtime,
     title,
   } = movie;
   return (
     <div className="player">
-      <video src="#" className="player__video" poster={poster}></video>
+      <video src="#" className="player__video" poster={previewImage}></video>
 
       <button type="button" className="player__exit">Exit</button>
 
