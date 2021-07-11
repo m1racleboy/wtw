@@ -8,25 +8,21 @@ import { useInput } from '../../hooks/useInput';
 const COMMENT_MIN_LENGTH = 50;
 const COMMENT_MAX_LENGTH = 400;
 const STARS_LENGTH = 10;
+const stars = Array.from({ length: STARS_LENGTH }, (v, i) => i + 1).reverse();
 export function AddReviewFormScreen(props) {
   const { onSubmit } = props;
   const { id } = useParams();
-
   const rating = useInput(null, { isEmpty: true });
   const comment = useInput('', { isEmpty: true, minLength: COMMENT_MIN_LENGTH, maxLength: COMMENT_MAX_LENGTH });
 
-  const state = {
-    id: id,
-    comment: comment.value,
-    rating: rating.value,
-  };
-
   const handleSubmit = (evt) => {
     evt.preventDefault();
-    onSubmit(state);
+    onSubmit({
+      id: id,
+      comment: comment.value,
+      rating: rating.value,
+    });
   };
-
-  const stars = Array.from({ length: STARS_LENGTH }, (v, i) => i + 1).reverse();
 
   const createStarsTemplate = (starValue) => (
     <React.Fragment key={starValue}>
@@ -54,7 +50,7 @@ export function AddReviewFormScreen(props) {
         <div className="add-review__text">
           {(comment.isDirty && comment.isEmpty) && <div style={{ color: 'black' }}>Комментарий не может быть пустым</div>}
           {(comment.isDirty && comment.minLengthError) && <div style={{ color: 'black' }}>Слишком короткий комментарий, осталось: {COMMENT_MIN_LENGTH - comment.value.length}</div>}
-          {(comment.isDirty && comment.maxLengthError) && <div style={{ color: 'black' }}>Слишком длинный комментарий, превышен на: {COMMENT_MAX_LENGTH - comment.value.length}</div>}
+          {(comment.isDirty && comment.maxLengthError) && <div style={{ color: 'black' }}>Слишком длинный комментарий, превышен на: {comment.value.length - COMMENT_MAX_LENGTH}</div>}
 
           <textarea
             className="add-review__textarea"
@@ -81,8 +77,8 @@ AddReviewFormScreen.propTypes = {
 };
 
 const mapDispatchToProps = (dispatch) => ({
-  onSubmit(state) {
-    dispatch(postReview(state));
+  onSubmit(data) {
+    dispatch(postReview(data));
   },
 });
 

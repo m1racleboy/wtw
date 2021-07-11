@@ -41,7 +41,7 @@ export function LoginScreen({ onSubmit }) {
             <div className="sign-in__field">
               {(email.isDirty && email.isEmpty) && <div style={{ color: 'white' }}>Поле логина не может быть пустым</div>}
               {(email.isDirty && email.minLengthError) && <div style={{ color: 'white' }}>Слишком короткий логин, осталось: {EMAIL_MIN_LENGTH - email.value.length}</div>}
-              {(email.isDirty && email.maxLengthError) && <div style={{ color: 'white' }}>Слишком длинный логин, превышен на: {EMAIL_MAX_LENGTH - email.value.length}</div>}
+              {(email.isDirty && email.maxLengthError) && <div style={{ color: 'white' }}>Слишком длинный логин, превышен на: {email.value.length - EMAIL_MAX_LENGTH}</div>}
               {(email.isDirty && email.emailError) && <div style={{ color: 'white' }}>Некорректный email</div>}
               <input
                 value={email.value}
@@ -58,7 +58,7 @@ export function LoginScreen({ onSubmit }) {
             <div className="sign-in__field">
               {(password.isDirty && password.isEmpty) && <div style={{ color: 'white' }}>Поле пароля не может быть пустым</div>}
               {(password.isDirty && password.minLengthError) && <div style={{ color: 'white' }}>Слишком короткий пароль, осталось: {PASSWORD_MIN_LENGTH - password.value.length}</div>}
-              {(password.isDirty && password.maxLengthError) && <div style={{ color: 'white' }}>Слишком длинный пароль, осталось: {PASSWORD_MAX_LENGTH - password.value.length}</div>}
+              {(password.isDirty && password.maxLengthError) && <div style={{ color: 'white' }}>Слишком длинный пароль, осталось: {password.value.length - PASSWORD_MAX_LENGTH}</div>}
               <input
                 value={password.value}
                 onChange={(e) => password.onChange(e)}

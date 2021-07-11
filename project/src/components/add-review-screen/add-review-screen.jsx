@@ -61,8 +61,8 @@ AddReviewScreen.propTypes = {
   movies: PropTypes.arrayOf(MovieProp).isRequired,
 };
 
-const mapStateToProps = (state) => ({
-  movies: state.movies,
+const mapStateToProps = ({movies}) => ({
+  movies: movies,
 });
 
 export default connect(mapStateToProps)(AddReviewScreen);
