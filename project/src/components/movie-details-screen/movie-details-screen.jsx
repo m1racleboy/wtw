@@ -33,7 +33,7 @@ export function MovieDetailsScreen(props) {
       case Tabs.OVERVIEW: return <OverviewTab movie={movie} />;
       case Tabs.DETAILS: return <DetailsTab movie={movie} />;
       case Tabs.REVIEWS: return <ReviewsTab id={+id} />;
-      default: return 0;
+      default: return <div><h2 style={{ color: 'black', marginTop: '50px', lineHeight: '50px', textAlign: 'center' }}>Что-то не так...<br /> пока ждешь закажи пиццу!</h2></div>;
     }
   };
 
