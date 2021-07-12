@@ -1,13 +1,18 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-
-import MovieProp from '../../props/movie.prop';
+import React, { useEffect } from 'react';
 
 import MovieListScreen from '../movie-list-screen/movie-list-screen';
 import Logo from '../logo/logo';
+import UserStatus from '../user-status/user-status';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchFavoriteMovies } from '../../store/api-actions';
 
 export default function MyListScreen(props) {
-  const { movies } = props;
+
+  const dispatch = useDispatch();
+  const favoriteMovies = useSelector((state) => state.favoriteMovies);
+  useEffect(() => {
+    dispatch(fetchFavoriteMovies());
+  }, []);
 
   return (
     <div className="user-page">
@@ -16,21 +21,12 @@ export default function MyListScreen(props) {
 
         <h1 className="page-title user-page__title">My list</h1>
 
-        <ul className="user-block">
-          <li className="user-block__item">
-            <div className="user-block__avatar">
-              <img src="img/avatar.jpg" alt="User avatar" width="63" height="63" />
-            </div>
-          </li>
-          <li className="user-block__item">
-            <a className="user-block__link">Sign out</a>
-          </li>
-        </ul>
+        <UserStatus />
       </header>
 
       <section className="catalog">
         <h2 className="catalog__title visually-hidden">Catalog</h2>
-        <MovieListScreen movies={movies.filter((movie) => movie.isFavorite)} />
+        <MovieListScreen movies={favoriteMovies} />
       </section>
 
       <footer className="page-footer">
@@ -43,7 +39,3 @@ export default function MyListScreen(props) {
     </div >
   );
 }
-
-MyListScreen.propTypes = {
-  movies: PropTypes.arrayOf(MovieProp).isRequired,
-};

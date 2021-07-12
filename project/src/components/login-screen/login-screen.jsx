@@ -1,7 +1,28 @@
 import React from 'react';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import { login } from '../../store/api-actions';
 import Logo from '../logo/logo';
+import { useInput } from '../../hooks/useInput';
 
-export default function LoginScreen() {
+const EMAIL_MIN_LENGTH = 10;
+const PASSWORD_MIN_LENGTH = 3;
+const EMAIL_MAX_LENGTH = 50;
+const PASSWORD_MAX_LENGTH = 20;
+
+export function LoginScreen({ onSubmit }) {
+  const email = useInput('', { isEmpty: true, minLength: EMAIL_MIN_LENGTH, maxLength: EMAIL_MAX_LENGTH, isEmail: true });
+  const password = useInput('', { isEmpty: true, minLength: PASSWORD_MIN_LENGTH, maxLength: PASSWORD_MAX_LENGTH });
+
+  const handleSubmit = (evt) => {
+    evt.preventDefault();
+
+    onSubmit({
+      login: email.value,
+      password: password.value,
+    });
+  };
+
   return (
     <div className="user-page">
       <header className="page-header user-page__head">
@@ -11,19 +32,53 @@ export default function LoginScreen() {
       </header>
 
       <div className="sign-in user-page__content">
-        <form action="#" className="sign-in__form">
+        <form
+          action=''
+          className="sign-in__form"
+          onSubmit={handleSubmit}
+        >
           <div className="sign-in__fields">
             <div className="sign-in__field">
-              <input className="sign-in__input" type="email" placeholder="Email address" name="user-email" id="user-email" />
+              {(email.isDirty && email.isEmpty) && <div style={{ color: 'white' }}>Поле логина не может быть пустым</div>}
+              {(email.isDirty && email.minLengthError) && <div style={{ color: 'white' }}>Слишком короткий логин, осталось: {EMAIL_MIN_LENGTH - email.value.length}</div>}
+              {(email.isDirty && email.maxLengthError) && <div style={{ color: 'white' }}>Слишком длинный логин, превышен на: {email.value.length - EMAIL_MAX_LENGTH}</div>}
+              {(email.isDirty && email.emailError) && <div style={{ color: 'white' }}>Некорректный email</div>}
+              <input
+                value={email.value}
+                onChange={(e) => email.onChange(e)}
+                onBlur={(e) => email.onBlur(e)}
+                className="sign-in__input"
+                type="email"
+                placeholder="Email address"
+                name="user-email"
+                id="user-email"
+              />
               <label className="sign-in__label visually-hidden" htmlFor="user-email">Email address</label>
             </div>
             <div className="sign-in__field">
-              <input className="sign-in__input" type="password" placeholder="Password" name="user-password" id="user-password" />
+              {(password.isDirty && password.isEmpty) && <div style={{ color: 'white' }}>Поле пароля не может быть пустым</div>}
+              {(password.isDirty && password.minLengthError) && <div style={{ color: 'white' }}>Слишком короткий пароль, осталось: {PASSWORD_MIN_LENGTH - password.value.length}</div>}
+              {(password.isDirty && password.maxLengthError) && <div style={{ color: 'white' }}>Слишком длинный пароль, осталось: {password.value.length - PASSWORD_MAX_LENGTH}</div>}
+              <input
+                value={password.value}
+                onChange={(e) => password.onChange(e)}
+                onBlur={(e) => password.onBlur(e)}
+                className="sign-in__input"
+                type="password" placeholder="Password"
+                name="user-password"
+                id="user-password"
+              />
               <label className="sign-in__label visually-hidden" htmlFor="user-password">Password</label>
             </div>
           </div>
           <div className="sign-in__submit">
-            <button className="sign-in__btn" type="submit">Sign in</button>
+            <button
+              className="sign-in__btn"
+              type="submit"
+              disabled={!email.inputValid || !password.inputValid}
+            >
+              Sign in
+            </button>
           </div>
         </form>
       </div>
@@ -35,6 +90,19 @@ export default function LoginScreen() {
           <p>© 2019 What to watch Ltd.</p>
         </div>
       </footer>
-    </div>
+    </div >
   );
 }
+
+LoginScreen.propTypes = {
+  onSubmit: PropTypes.func.isRequired,
+};
+
+
+const mapDispatchToProps = (dispatch) => ({
+  onSubmit(authData) {
+    dispatch(login(authData));
+  },
+});
+
+export default connect(null, mapDispatchToProps)(LoginScreen);

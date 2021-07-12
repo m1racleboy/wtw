@@ -7,7 +7,7 @@ const PLAYER_TIMEOUT = 1000;
 
 export default function VideoPlayer(props) {
   const { movie, isActive } = props;
-  const { poster, title, previewMovieLink } = movie;
+  const { title, previewMovieLink, previewImage } = movie;
   const videoRef = useRef();
 
   useEffect(() => {
@@ -22,8 +22,8 @@ export default function VideoPlayer(props) {
 
   return (
     isActive
-      ? <video src={previewMovieLink} ref={videoRef} width={280} height={175} poster={poster} muted />
-      : <img src={poster} alt={title} width={280} height={175} />
+      ? <video src={previewMovieLink} ref={videoRef} width={280} height={175} poster={previewImage} muted />
+      : <img src={previewImage} alt={title} width={280} height={175} />
   );
 }
 

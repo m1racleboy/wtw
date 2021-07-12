@@ -2,9 +2,38 @@ export const ActionType = {
   CHANGE_CURRENT_GENRE: 'changeCurrentGenre',
   RESET_MOVIES_BOARD: 'resetMoviesBoard',
   MOVIES_COUNT_STEP: 'moviesCountStep',
+  REQUIRED_AUTHORIZATION: 'requiredAuthorization',
+  LOGOUT: 'logout',
+  LOAD_MOVIES: 'loadMovies',
+  LOAD_REVIEWS: 'loadReviews',
+  LOAD_HEADER_MOVIE: 'loadHeaderMovie',
+  LOAD_SIMILAR_MOVIE: 'loadSimilarMovie',
+  LOAD_FAVORITE_MOVIES: 'loadFavoriteMovies',
+  REDIRECT_TO_ROUTE: 'redirectToRoute',
+  POST_REVIEW: 'postReview',
 };
 
 export const ActionCreator = {
+  loadMovies: (movies) => ({
+    type: ActionType.LOAD_MOVIES,
+    payload: movies,
+  }),
+  loadMovieReviews: (reviews) => ({
+    type: ActionType.LOAD_REVIEWS,
+    payload: reviews,
+  }),
+  loadHeaderMovie: (promo) => ({
+    type: ActionType.LOAD_HEADER_MOVIE,
+    payload: promo,
+  }),
+  loadSimilarMovies: (similarMovies) => ({
+    type: ActionType.LOAD_SIMILAR_MOVIE,
+    payload: similarMovies,
+  }),
+  loadFavoriteMovies: (favoriteMovies) => ({
+    type: ActionType.LOAD_SIMILAR_MOVIE,
+    payload: favoriteMovies,
+  }),
   changeCurrentGenre: (genre) => ({
     type: ActionType.CHANGE_CURRENT_GENRE,
     payload: genre,
@@ -14,5 +43,20 @@ export const ActionCreator = {
   }),
   moviesCountStep: () => ({
     type: ActionType.MOVIES_COUNT_STEP,
+  }),
+  requireAuthorization: (status) => ({
+    type: ActionType.REQUIRED_AUTHORIZATION,
+    payload: status,
+  }),
+  logout: () => ({
+    type: ActionType.LOGOUT,
+  }),
+  replaceRoute: (url) => ({
+    type: ActionType.REDIRECT_TO_ROUTE,
+    payload: url,
+  }),
+  postReview: (review) => ({
+    type: ActionType.POST_REVIEW,
+    payload: review,
   }),
 };

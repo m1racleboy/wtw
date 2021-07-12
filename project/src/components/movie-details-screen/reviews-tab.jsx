@@ -1,12 +1,19 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import dayjs from 'dayjs';
-import he from 'he';
 
-import ReviewProp from '../../props/review.prop';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchMovieReviews } from '../../store/api-actions';
 
 export default function DetailsTab(props) {
-  const { reviews } = props;
+  const { id } = props;
+
+  const dispatch = useDispatch();
+  const reviews = useSelector((state) => state.reviews);
+
+  useEffect(() => {
+    dispatch(fetchMovieReviews(id));
+  }, [id]);
 
   return (
     <div className="film-card__reviews film-card__row">
@@ -16,7 +23,7 @@ export default function DetailsTab(props) {
             <React.Fragment key={review.id}>
               <div className="review">
                 <blockquote className="review__quote">
-                  <p className="review__text">{he.encode(review.comment)}</p>
+                  <p className="review__text">{review.comment}</p>
 
                   <footer className="review__details">
                     <cite className="review__author">{review.user.name}</cite>
@@ -36,7 +43,7 @@ export default function DetailsTab(props) {
             <React.Fragment key={review.id}>
               <div className="review">
                 <blockquote className="review__quote">
-                  <p className="review__text">{he.encode(review.comment)}</p>
+                  <p className="review__text">{review.comment}</p>
 
                   <footer className="review__details">
                     <cite className="review__author">{review.user.name}</cite>
@@ -55,5 +62,5 @@ export default function DetailsTab(props) {
 }
 
 DetailsTab.propTypes = {
-  reviews: PropTypes.arrayOf(ReviewProp).isRequired,
+  id: PropTypes.number.isRequired,
 };

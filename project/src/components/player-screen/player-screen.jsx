@@ -3,20 +3,21 @@ import PropTypes from 'prop-types';
 import { useParams } from 'react-router-dom';
 
 import MovieProp from '../../props/movie.prop';
+import { connect } from 'react-redux';
 
-export default function PlayerScreen(props) {
+export function PlayerScreen(props) {
   const { movies } = props;
   const { id } = useParams();
-  const movie = movies.find((element) => element.id === id);
+  const movie = movies.find((element) => element.id === +id);
 
   const {
-    poster,
+    previewImage,
     runtime,
     title,
   } = movie;
   return (
     <div className="player">
-      <video src="#" className="player__video" poster={poster}></video>
+      <video src="#" className="player__video" poster={previewImage}></video>
 
       <button type="button" className="player__exit">Exit</button>
 
@@ -53,3 +54,9 @@ export default function PlayerScreen(props) {
 PlayerScreen.propTypes = {
   movies: PropTypes.arrayOf(MovieProp).isRequired,
 };
+
+const mapStateToProps = (state) => ({
+  movies: state.movies,
+});
+
+export default connect(mapStateToProps)(PlayerScreen);
