@@ -34,7 +34,8 @@ export function App(props) {
         <Route exact path={AppRoute.ROOT}>
           <WelcomeScreen />
         </Route>
-        <Route exact path={AppRoute.LOGIN} render={() => <LoginScreen />}>
+        <Route exact path={AppRoute.LOGIN}>
+          <LoginScreen />
         </Route>
         <Route exact path={AppRoute.MOVIE}>
           <MovieDetailsScreen />
@@ -58,7 +59,7 @@ export function App(props) {
           <NotFoundScreen />
         </Route>
       </Switch>
-    </BrowserRouter>
+    </BrowserRouter >
   );
 }
 
@@ -68,7 +69,6 @@ App.propTypes = {
 };
 
 const mapStateToProps = (state) => ({
-  movies: state.movies,
   authorizationStatus: state.authorizationStatus,
   isDataLoaded: state.isDataLoaded,
 });

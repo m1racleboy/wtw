@@ -13,9 +13,7 @@ import { ActionCreator } from './store/action';
 import { checkAuth, fetchMovieList, fetchHeaderMovie } from './store/api-actions';
 import { AuthorizationStatus } from './const';
 
-const api = createAPI(
-  () => store.dispatch(ActionCreator.requireAuthorization(AuthorizationStatus.NO_AUTH)),
-);
+const api = createAPI(() => store.dispatch(ActionCreator.requireAuthorization(AuthorizationStatus.NO_AUTH)));
 
 const store = createStore(
   reducer,

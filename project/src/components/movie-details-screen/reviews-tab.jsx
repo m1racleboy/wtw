@@ -10,6 +10,7 @@ export default function DetailsTab(props) {
 
   const dispatch = useDispatch();
   const reviews = useSelector((state) => state.reviews);
+
   useEffect(() => {
     dispatch(fetchMovieReviews(id));
   }, [id]);

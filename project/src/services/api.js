@@ -30,6 +30,10 @@ export const createAPI = (onUnauthorized) => {
     throw err;
   };
 
+  api.interceptors.request.use((request) => {
+    request.headers['x-token'] = localStorage.getItem('token');
+    return request;
+  });
   api.interceptors.response.use(onSuccess, onFail);
 
   return api;

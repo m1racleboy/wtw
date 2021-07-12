@@ -7,33 +7,30 @@ import { logout } from '../../store/api-actions';
 
 export function UserStatus(props) {
   const { authorizationStatus, signOut } = props;
+
   const handleLogout = (evt) => {
     evt.preventDefault();
 
     signOut();
   };
 
-  if (authorizationStatus === AuthorizationStatus.AUTH) {
-    return (
-      <ul className="user-block">
-        <li className="user-block__item">
-          <div className="user-block__avatar">
-            <Link to={AppRoute.MY_LIST}><img src="img/avatar.jpg" alt="User avatar" width="63" height="63" /></Link>
-          </div>
-        </li>
-        <li className="user-block__item">
-          <a className="user-block__link" onClick={handleLogout}>Sign out</a>
-        </li>
-      </ul>
-    );
-  }
-  else {
-    return (
+  return authorizationStatus === AuthorizationStatus.AUTH ? (
+    <ul className="user-block">
+      <li className="user-block__item">
+        <div className="user-block__avatar">
+          <Link to={AppRoute.MY_LIST}><img src="img/avatar.jpg" alt="User avatar" width="63" height="63" /></Link>
+        </div>
+      </li>
+      <li className="user-block__item">
+        <a className="user-block__link" onClick={handleLogout}>Sign out</a>
+      </li>
+    </ul>
+  )
+    : (
       <div className="user-block">
         <Link to={AppRoute.LOGIN} className="user-block__link">Sign in</Link>
       </div>
     );
-  }
 }
 
 UserStatus.propTypes = {
