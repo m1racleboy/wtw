@@ -7,10 +7,13 @@ export const AppRoute = {
   PLAYER: '/player/:id',
 };
 
-export const Tabs = {
-  OVERVIEW: 'Overview',
-  DETAILS: 'Details',
-  REVIEWS: 'Reviews',
+export const APIRoute = {
+  MOVIES: '/films',
+  REVIEWS: '/comments',
+  LOGIN: '/login',
+  LOGOUT: '/logout',
+  PROMO: '/promo',
+  FAVORITE: '/favorite',
 };
 
 export const AuthorizationStatus = {
@@ -19,13 +22,10 @@ export const AuthorizationStatus = {
   UNKNOWN: 'UNKNOWN',
 };
 
-export const APIRoute = {
-  MOVIES: '/films',
-  REVIEWS: '/comments',
-  LOGIN: '/login',
-  LOGOUT: '/logout',
-  PROMO: '/promo',
-  FAVORITE: '/favorite',
+export const Tabs = {
+  OVERVIEW: 'Overview',
+  DETAILS: 'Details',
+  REVIEWS: 'Reviews',
 };
 
 export const ALL_GENRES = 'All genres';
