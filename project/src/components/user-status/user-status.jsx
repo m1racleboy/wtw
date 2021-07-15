@@ -1,17 +1,17 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { AppRoute, AuthorizationStatus } from '../../const';
-import { connect } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { logout } from '../../store/api-actions';
 
-export function UserStatus(props) {
-  const { authorizationStatus, signOut } = props;
+export default function UserStatus() {
+  const dispatch = useDispatch();
+  const authorizationStatus = useSelector((state) => state.user.authorizationStatus);
 
   const handleLogout = (evt) => {
     evt.preventDefault();
 
-    signOut();
+    dispatch(logout());
   };
 
   return authorizationStatus === AuthorizationStatus.AUTH ? (
@@ -32,20 +32,3 @@ export function UserStatus(props) {
       </div>
     );
 }
-
-UserStatus.propTypes = {
-  authorizationStatus: PropTypes.string.isRequired,
-  signOut: PropTypes.func.isRequired,
-};
-
-const mapStateToProps = (state) => ({
-  authorizationStatus: state.authorizationStatus,
-});
-
-const mapDispatchToProps = (dispatch) => ({
-  signOut() {
-    dispatch(logout());
-  },
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(UserStatus);

@@ -1,14 +1,9 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-
-import MovieProp from '../../props/movie.prop';
-
+import { useSelector } from 'react-redux';
 import MovieListScreen from '../movie-list-screen/movie-list-screen';
 import GenresList from '../genre-list/genres-list';
 import UserStatus from '../user-status/user-status';
 import Logo from '../logo/logo';
-
 import { ALL_GENRES, AuthorizationStatus } from '../../const';
 
 export const isCheckedAuth = (authorizationStatus) => authorizationStatus === AuthorizationStatus.UNKNOWN;
@@ -21,8 +16,11 @@ function getMoviesByGenre(movies, genre) {
   return movies.filter((movie) => movie.genre === genre);
 }
 
-export function WelcomeScreen(props) {
-  const { currentGenre, movies, authorizationStatus, headerMovie } = props;
+export default function WelcomeScreen() {
+  const movies = useSelector((state) => state.movie.movies);
+  const headerMovie = useSelector((state) => state.movie.headerMovie);
+  const currentGenre = useSelector((state) => state.movie.currentGenre);
+  const authorizationStatus = useSelector((state) => state.user.authorizationStatus);
 
   const {
     title,
@@ -97,19 +95,3 @@ export function WelcomeScreen(props) {
     </>
   );
 }
-
-WelcomeScreen.propTypes = {
-  currentGenre: PropTypes.string.isRequired,
-  movies: PropTypes.arrayOf(MovieProp).isRequired,
-  authorizationStatus: PropTypes.string.isRequired,
-  headerMovie: MovieProp,
-};
-
-const mapStateToProps = (state) => ({
-  currentGenre: state.currentGenre,
-  movies: state.movies,
-  authorizationStatus: state.authorizationStatus,
-  headerMovie: state.headerMovie,
-});
-
-export default connect(mapStateToProps)(WelcomeScreen);

@@ -1,11 +1,7 @@
 import React from 'react';
 import { Switch, Route, Router as BrowserRouter } from 'react-router-dom';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-
 import browserHistory from '../../browser-history';
 import PrivateRoute from '../private-route/private-route';
-
 import WelcomeScreen from '../welcome-screen/welcome-screen';
 import LoginScreen from '../login-screen/login-screen';
 import MovieDetailsScreen from '../movie-details-screen/movie-details-screen';
@@ -13,14 +9,14 @@ import MyListScreen from '../my-list-screen/my-list-screen';
 import AddReviewScreen from '../add-review-screen/add-review-screen';
 import PlayerScreen from '../player-screen/player-screen';
 import NotFoundScreen from '../not-found-screen/not-found-screen';
-
-import { AppRoute } from '../../const';
-
 import LoadingScreen from '../loading-screen/loading-screen';
+import { AppRoute } from '../../const';
 import { isCheckedAuth } from '../welcome-screen/welcome-screen';
+import { useSelector } from 'react-redux';
 
-export function App(props) {
-  const { authorizationStatus, isDataLoaded } = props;
+export default function App() {
+  const authorizationStatus = useSelector((state) => state.user.authorizationStatus);
+  const isDataLoaded = useSelector((state) => state.movie.isDataLoaded);
 
   if (isCheckedAuth(authorizationStatus) || !isDataLoaded) {
     return (
@@ -63,14 +59,3 @@ export function App(props) {
   );
 }
 
-App.propTypes = {
-  authorizationStatus: PropTypes.string.isRequired,
-  isDataLoaded: PropTypes.bool.isRequired,
-};
-
-const mapStateToProps = (state) => ({
-  authorizationStatus: state.authorizationStatus,
-  isDataLoaded: state.isDataLoaded,
-});
-
-export default connect(mapStateToProps, null)(App);

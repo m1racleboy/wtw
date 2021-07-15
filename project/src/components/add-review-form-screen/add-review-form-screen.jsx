@@ -1,27 +1,26 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { useParams } from 'react-router-dom';
-import { connect } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { postReview } from '../../store/api-actions';
 import { useInput } from '../../hooks/useInput';
 
 const COMMENT_MIN_LENGTH = 50;
 const COMMENT_MAX_LENGTH = 400;
 const STARS_LENGTH = 10;
-const stars = Array.from({ length: STARS_LENGTH }, (v, i) => i + 1).reverse();
-export function AddReviewFormScreen(props) {
-  const { onSubmit } = props;
+const stars = Array.from({ length: STARS_LENGTH }, (_, i) => i + 1).reverse();
+export default function AddReviewFormScreen() {
+  const dispatch = useDispatch();
   const { id } = useParams();
   const rating = useInput(null, { isEmpty: true });
   const comment = useInput('', { isEmpty: true, minLength: COMMENT_MIN_LENGTH, maxLength: COMMENT_MAX_LENGTH });
 
   const handleSubmit = (evt) => {
     evt.preventDefault();
-    onSubmit({
+    dispatch(postReview({
       id: id,
       comment: comment.value,
       rating: rating.value,
-    });
+    }));
   };
 
   const createStarsTemplate = (starValue) => (
@@ -71,15 +70,3 @@ export function AddReviewFormScreen(props) {
     </div >
   );
 }
-
-AddReviewFormScreen.propTypes = {
-  onSubmit: PropTypes.func.isRequired,
-};
-
-const mapDispatchToProps = (dispatch) => ({
-  onSubmit(data) {
-    dispatch(postReview(data));
-  },
-});
-
-export default connect(null, mapDispatchToProps)(AddReviewFormScreen);

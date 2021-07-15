@@ -1,14 +1,20 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import { ActionCreator } from '../../store/action.js';
-
-import movieProp from '../../props/movie.prop';
-
+import { useDispatch, useSelector } from 'react-redux';
 import { ALL_GENRES } from '../../const';
+import { changeCurrentGenre, resetRenderedMoviesCount } from '../../store/reducers/movie-data';
 
-export function GenresList(props) {
-  const { currentGenre, movies, onGenreTabClick } = props;
+export default function GenresList() {
+  const dispatch = useDispatch();
+  const currentGenre = useSelector((state) => state.movie.currentGenre);
+  const movies = useSelector((state) => state.movie.movies);
+  const onGenreTabClick = (evt) => {
+    evt.preventDefault();
+    if (evt.target.matches('a')) {
+      dispatch(changeCurrentGenre(evt.target.textContent));
+      dispatch(resetRenderedMoviesCount());
+    }
+  };
+
   const uniqueGenres = new Set(movies.map((movie) => movie.genre));
 
   return (
@@ -21,26 +27,3 @@ export function GenresList(props) {
     </ul>
   );
 }
-
-const mapStateToProps = (state) => ({
-  currentGenre: state.currentGenre,
-  movies: state.movies,
-});
-
-const mapDispatchToProps = (dispatch) => ({
-  onGenreTabClick(evt) {
-    evt.preventDefault();
-    if (evt.target.matches('a')) {
-      dispatch(ActionCreator.changeCurrentGenre(evt.target.textContent));
-      dispatch(ActionCreator.resetMoviesBoard());
-    }
-  },
-});
-
-GenresList.propTypes = {
-  currentGenre: PropTypes.string.isRequired,
-  movies: PropTypes.arrayOf(movieProp).isRequired,
-  onGenreTabClick: PropTypes.func.isRequired,
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(GenresList);
