@@ -1,19 +1,19 @@
 import React, { useState } from 'react';
-import { connect } from 'react-redux';
-
 import PropTypes from 'prop-types';
 import movieProp from '../../props/movie.prop';
-
+import { useDispatch, useSelector } from 'react-redux';
 import MovieCardScreen from '../movie-card-screen/movie-card-screen';
-import { ActionCreator } from '../../store/action';
+import { changeRenderedMoviesCount } from '../../store/reducers/movie-data';
 
-export function MovieListScreen(props) {
-  const { movies, renderedMoviesCount, onMoviesCountStepChange } = props;
+export default function MovieListScreen(props) {
+  const { movies } = props;
+  const dispatch = useDispatch();
+  const renderedMoviesCount = useSelector((state) => state.movie.renderedMoviesCount);
   const [activeMovie, setActiveMovie] = useState(null);
 
   const handleMouseEnter = (movieId) => setActiveMovie(movieId);
   const handleMouseLeave = () => setActiveMovie(null);
-  const handleShowMoreClick = () => onMoviesCountStepChange();
+  const handleShowMoreClick = () => dispatch(changeRenderedMoviesCount());
 
 
   return (
@@ -32,18 +32,4 @@ export function MovieListScreen(props) {
 
 MovieListScreen.propTypes = {
   movies: PropTypes.arrayOf(movieProp).isRequired,
-  renderedMoviesCount: PropTypes.number.isRequired,
-  onMoviesCountStepChange: PropTypes.func.isRequired,
 };
-
-const mapStateToProps = (state) => ({
-  renderedMoviesCount: state.renderedMoviesCount,
-});
-
-const mapDispatchToProps = (dispatch) => ({
-  onMoviesCountStepChange() {
-    dispatch(ActionCreator.moviesCountStep());
-  },
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(MovieListScreen);

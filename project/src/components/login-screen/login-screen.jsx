@@ -1,8 +1,7 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import { login } from '../../store/api-actions';
 import Logo from '../logo/logo';
+import { login } from '../../store/api-actions';
+import { useDispatch } from 'react-redux';
 import { useInput } from '../../hooks/useInput';
 
 const EMAIL_MIN_LENGTH = 10;
@@ -10,17 +9,18 @@ const PASSWORD_MIN_LENGTH = 3;
 const EMAIL_MAX_LENGTH = 50;
 const PASSWORD_MAX_LENGTH = 20;
 
-export function LoginScreen({ onSubmit }) {
+export default function LoginScreen() {
+  const dispatch = useDispatch();
   const email = useInput('', { isEmpty: true, minLength: EMAIL_MIN_LENGTH, maxLength: EMAIL_MAX_LENGTH, isEmail: true });
   const password = useInput('', { isEmpty: true, minLength: PASSWORD_MIN_LENGTH, maxLength: PASSWORD_MAX_LENGTH });
 
   const handleSubmit = (evt) => {
     evt.preventDefault();
 
-    onSubmit({
+    dispatch(login({
       login: email.value,
       password: password.value,
-    });
+    }));
   };
 
   return (
@@ -93,16 +93,3 @@ export function LoginScreen({ onSubmit }) {
     </div >
   );
 }
-
-LoginScreen.propTypes = {
-  onSubmit: PropTypes.func.isRequired,
-};
-
-
-const mapDispatchToProps = (dispatch) => ({
-  onSubmit(authData) {
-    dispatch(login(authData));
-  },
-});
-
-export default connect(null, mapDispatchToProps)(LoginScreen);

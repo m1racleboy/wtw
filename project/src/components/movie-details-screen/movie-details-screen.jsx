@@ -1,12 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { connect, useDispatch, useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Link, useParams } from 'react-router-dom';
-import PropTypes from 'prop-types';
-
-import MovieProp from '../../props/movie.prop';
-
 import { AuthorizationStatus, MAX_COUNT_SIMILAR_MOVIES, Tabs } from '../../const';
-
 import MovieListScreen from '../movie-list-screen/movie-list-screen';
 import Logo from '../logo/logo';
 import UserStatus from '../user-status/user-status';
@@ -15,8 +10,11 @@ import OverviewTab from '../movie-details-screen/overview-tab';
 import DetailsTab from '../movie-details-screen/details-tab';
 import ReviewsTab from '../movie-details-screen/reviews-tab';
 
-export function MovieDetailsScreen(props) {
-  const { movies, authorizationStatus } = props;
+export default function MovieDetailsScreen() {
+  const dispatch = useDispatch();
+  const similarMovies = useSelector((state) => state.movie.similarMovies);
+  const movies = useSelector((state) => state.movie.movies);
+  const authorizationStatus = useSelector((state) => state.user.authorizationStatus);
   const { id } = useParams();
   const movie = movies.find((element) => element.id === +id);
 
@@ -38,8 +36,6 @@ export function MovieDetailsScreen(props) {
   };
 
   const [currentTab, setCurrentTab] = useState(Tabs.OVERVIEW);
-  const similarMovies = useSelector((state) => state.similarMovies);
-  const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(fetchSimilarMovies(id));
@@ -131,15 +127,3 @@ export function MovieDetailsScreen(props) {
     </>
   );
 }
-
-MovieDetailsScreen.propTypes = {
-  movies: PropTypes.arrayOf(MovieProp).isRequired,
-  authorizationStatus: PropTypes.string.isRequired,
-};
-
-const mapStateToProps = (state) => ({
-  movies: state.movies,
-  authorizationStatus: state.authorizationStatus,
-});
-
-export default connect(mapStateToProps)(MovieDetailsScreen);

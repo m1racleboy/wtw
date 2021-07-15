@@ -6,10 +6,10 @@ import UserStatus from '../user-status/user-status';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchFavoriteMovies } from '../../store/api-actions';
 
-export default function MyListScreen(props) {
-
+export default function MyListScreen() {
   const dispatch = useDispatch();
-  const favoriteMovies = useSelector((state) => state.favoriteMovies);
+  const favoriteMovies = useSelector((state) => state.movie.favoriteMovies);
+
   useEffect(() => {
     dispatch(fetchFavoriteMovies());
   }, []);

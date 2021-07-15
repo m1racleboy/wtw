@@ -1,16 +1,12 @@
 import React from 'react';
-import PropTypes from 'prop-types';
+import { useSelector } from 'react-redux';
 import { Link, useParams } from 'react-router-dom';
-
-import MovieProp from '../../props/movie.prop';
-
 import AddReviewFormScreen from '../add-review-form-screen/add-review-form-screen';
 import Logo from '../logo/logo';
 import UserStatus from '../user-status/user-status';
-import { connect } from 'react-redux';
 
-export function AddReviewScreen(props) {
-  const { movies } = props;
+export default function AddReviewScreen() {
+  const movies = useSelector((state) => state.movie.movies);
   const { id } = useParams();
   const movie = movies.find((element) => element.id === +id);
 
@@ -57,12 +53,3 @@ export function AddReviewScreen(props) {
   );
 }
 
-AddReviewScreen.propTypes = {
-  movies: PropTypes.arrayOf(MovieProp).isRequired,
-};
-
-const mapStateToProps = ({movies}) => ({
-  movies: movies,
-});
-
-export default connect(mapStateToProps)(AddReviewScreen);

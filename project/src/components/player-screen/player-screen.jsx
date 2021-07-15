@@ -1,12 +1,9 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { useParams } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 
-import MovieProp from '../../props/movie.prop';
-import { connect } from 'react-redux';
-
-export function PlayerScreen(props) {
-  const { movies } = props;
+export default function PlayerScreen(props) {
+  const movies = useSelector((state) => state.movie.movies);
   const { id } = useParams();
   const movie = movies.find((element) => element.id === +id);
 
@@ -15,6 +12,7 @@ export function PlayerScreen(props) {
     runtime,
     title,
   } = movie;
+
   return (
     <div className="player">
       <video src="#" className="player__video" poster={previewImage}></video>
@@ -50,13 +48,3 @@ export function PlayerScreen(props) {
     </div>
   );
 }
-
-PlayerScreen.propTypes = {
-  movies: PropTypes.arrayOf(MovieProp).isRequired,
-};
-
-const mapStateToProps = (state) => ({
-  movies: state.movies,
-});
-
-export default connect(mapStateToProps)(PlayerScreen);
