@@ -2,8 +2,8 @@ import { AuthorizationStatus, APIRoute, AppRoute } from '../const';
 import { adaptMoviesToClient, adaptMovieToClient, adaptUserDataToClient } from './adapter';
 import { toast } from 'react-toastify';
 import browserHistory from '../browser-history';
-import { loadFavoriteMovies, loadHeaderMovie, loadMovies, loadSimilarMovies } from './reducers/movie-data';
-import { loadReviews } from './reducers/reviews-data';
+import { loadFavoriteMovies, loadHeaderMovie, loadMovies, loadSimilarMovies, setFavoriteMovie } from './reducers/movie-data';
+import { addReview, loadReviews } from './reducers/reviews-data';
 import { loadUserData, requireAuthorization, signOut } from './reducers/user-data';
 
 export const fetchMovieList = () => (dispatch, _getState, api) => (
@@ -30,12 +30,19 @@ export const fetchMovieReviews = (id) => (dispatch, _getState, api) => (
 
 export const fetchFavoriteMovies = () => (dispatch, _getState, api) => (
   api.get(APIRoute.FAVORITE)
-    .then(({ data }) => dispatch(loadFavoriteMovies(data)))
+    .then(({ data }) => dispatch(loadFavoriteMovies(adaptMoviesToClient(data))))
 );
 
 export const postReview = ({ id, comment, rating }) => (dispatch, _getState, api) => (
   api.post(`${APIRoute.REVIEWS}/${id}`, { comment, rating })
+    .then(({ data }) => dispatch(addReview(data)))
     .then(() => dispatch(browserHistory.length > 1 ? browserHistory.goBack() : browserHistory.push(AppRoute.ROOT)))
+    .catch((err) => toast.error(err.message))
+);
+
+export const postFavoriteStatus = ({ id, status }) => (dispatch, _getState, api) => (
+  api.post(`${APIRoute.FAVORITE}/${id}/${status}`, { status })
+    .then(({ data }) => dispatch(setFavoriteMovie(adaptMovieToClient(data))))
     .catch((err) => toast.error(err.message))
 );
 

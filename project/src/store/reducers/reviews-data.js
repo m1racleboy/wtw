@@ -9,11 +9,11 @@ export const reviewData = createSlice({
     loadReviews(state, action) {
       state.reviews = [...action.payload];
     },
-    postReview(state, action) {
+    addReview(state, action) {
       state.reviews.push(action.payload);
     },
   },
 });
 
 export default reviewData.reducer;
-export const { loadReviews, postReview } = reviewData.actions;
+export const { loadReviews, addReview } = reviewData.actions;

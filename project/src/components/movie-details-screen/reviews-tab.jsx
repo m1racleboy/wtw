@@ -1,19 +1,10 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
+import ReviewProp from '../../props/review.prop';
 import dayjs from 'dayjs';
 
-import { useDispatch, useSelector } from 'react-redux';
-import { fetchMovieReviews } from '../../store/api-actions';
-
 export default function DetailsTab(props) {
-  const { id } = props;
-
-  const dispatch = useDispatch();
-  const reviews = useSelector((state) => state.review.reviews);
-
-  useEffect(() => {
-    dispatch(fetchMovieReviews(id));
-  }, [id]);
+  const { reviews } = props;
 
   return (
     <div className="film-card__reviews film-card__row">
@@ -62,5 +53,5 @@ export default function DetailsTab(props) {
 }
 
 DetailsTab.propTypes = {
-  id: PropTypes.number.isRequired,
+  reviews: PropTypes.arrayOf(ReviewProp).isRequired,
 };

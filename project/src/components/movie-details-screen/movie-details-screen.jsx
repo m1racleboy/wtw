@@ -5,17 +5,19 @@ import { AuthorizationStatus, MAX_COUNT_SIMILAR_MOVIES, Tabs } from '../../const
 import MovieListScreen from '../movie-list-screen/movie-list-screen';
 import Logo from '../logo/logo';
 import UserStatus from '../user-status/user-status';
-import { fetchSimilarMovies } from '../../store/api-actions';
+import { fetchMovieReviews, fetchSimilarMovies, postFavoriteStatus } from '../../store/api-actions';
 import OverviewTab from '../movie-details-screen/overview-tab';
 import DetailsTab from '../movie-details-screen/details-tab';
 import ReviewsTab from '../movie-details-screen/reviews-tab';
 
 export default function MovieDetailsScreen() {
   const dispatch = useDispatch();
-  const similarMovies = useSelector((state) => state.movie.similarMovies);
-  const movies = useSelector((state) => state.movie.movies);
-  const authorizationStatus = useSelector((state) => state.user.authorizationStatus);
   const { id } = useParams();
+  const movies = useSelector((state) => state.movie.movies);
+  const similarMovies = useSelector((state) => state.movie.similarMovies);
+  const authorizationStatus = useSelector((state) => state.user.authorizationStatus);
+  const reviews = useSelector((state) => state.review.reviews);
+  const [currentTab, setCurrentTab] = useState(Tabs.OVERVIEW);
   const movie = movies.find((element) => element.id === +id);
 
   const {
@@ -24,21 +26,30 @@ export default function MovieDetailsScreen() {
     backgroundColor,
     genre,
     year,
+    isFavorite,
   } = movie;
 
   const getContentFromTab = (tab) => {
     switch (tab) {
       case Tabs.OVERVIEW: return <OverviewTab movie={movie} />;
       case Tabs.DETAILS: return <DetailsTab movie={movie} />;
-      case Tabs.REVIEWS: return <ReviewsTab id={+id} />;
+      case Tabs.REVIEWS: return <ReviewsTab reviews={reviews} />;
       default: return <div><h2 style={{ color: 'black', marginTop: '50px', lineHeight: '50px', textAlign: 'center' }}>Что-то не так...<br /> пока ждешь закажи пиццу!</h2></div>;
     }
   };
 
-  const [currentTab, setCurrentTab] = useState(Tabs.OVERVIEW);
+  const handleFavoriteClick = (evt) => {
+    evt.preventDefault();
+
+    dispatch(postFavoriteStatus({
+      id: id,
+      status: +!isFavorite,
+    }));
+  };
 
   useEffect(() => {
     dispatch(fetchSimilarMovies(id));
+    dispatch(fetchMovieReviews(id));
   }, [id]);
 
   useEffect(() => {
@@ -69,17 +80,25 @@ export default function MovieDetailsScreen() {
               </p>
 
               <div className="film-card__buttons">
-                <button className="btn btn--play film-card__button" type="button">
-                  <svg viewBox="0 0 19 19" width="19" height="19">
-                    <use xlinkHref="#play-s"></use>
-                  </svg>
-                  <span>Play</span>
-                </button>
-                {authorizationStatus === AuthorizationStatus.AUTH &&
-                  <button className="btn btn--list film-card__button" type="button">
-                    <svg viewBox="0 0 19 20" width="19" height="20">
-                      <use xlinkHref="#add" />
+                <Link to={`/player/${id}`} style={{ textDecoration: 'none' }}>
+                  <button className="btn btn--play film-card__button" type="button">
+                    <svg viewBox="0 0 19 19" width="19" height="19">
+                      <use xlinkHref="#play-s"></use>
                     </svg>
+                    <span>Play</span>
+                  </button>
+                </Link>
+                {authorizationStatus === AuthorizationStatus.AUTH &&
+                  <button className="btn btn--list film-card__button" type="button" onClick={handleFavoriteClick}>
+                    {isFavorite
+                      ?
+                      <svg viewBox="0 0 18 14" width="18" height="14">
+                        <use xlinkHref="#in-list"></use>
+                      </svg>
+                      :
+                      <svg viewBox="0 0 19 20" width="19" height="20">
+                        <use xlinkHref="#add" />
+                      </svg>}
                     <span>My list</span>
                   </button>}
                 {authorizationStatus === AuthorizationStatus.AUTH &&

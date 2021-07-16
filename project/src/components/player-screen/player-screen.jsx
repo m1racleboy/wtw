@@ -1,6 +1,7 @@
 import React from 'react';
 import { useParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
+import browserHistory from '../../browser-history';
 
 export default function PlayerScreen() {
   const movies = useSelector((state) => state.movie.movies);
@@ -13,11 +14,13 @@ export default function PlayerScreen() {
     title,
   } = movie;
 
+  const handleExitClick = () => browserHistory.goBack();
+
   return (
     <div className="player">
       <video src="#" className="player__video" poster={previewImage}></video>
 
-      <button type="button" className="player__exit">Exit</button>
+      <button type="button" className="player__exit" onClick={handleExitClick}>Exit</button>
 
       <div className="player__controls">
         <div className="player__controls-row">
