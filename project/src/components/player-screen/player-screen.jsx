@@ -2,7 +2,7 @@ import React from 'react';
 import { useParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 
-export default function PlayerScreen(props) {
+export default function PlayerScreen() {
   const movies = useSelector((state) => state.movie.movies);
   const { id } = useParams();
   const movie = movies.find((element) => element.id === +id);

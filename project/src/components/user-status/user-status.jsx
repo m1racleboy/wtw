@@ -7,6 +7,7 @@ import { logout } from '../../store/api-actions';
 export default function UserStatus() {
   const dispatch = useDispatch();
   const authorizationStatus = useSelector((state) => state.user.authorizationStatus);
+  const userData = useSelector((state) => state.user.userData);
 
   const handleLogout = (evt) => {
     evt.preventDefault();
@@ -18,7 +19,7 @@ export default function UserStatus() {
     <ul className="user-block">
       <li className="user-block__item">
         <div className="user-block__avatar">
-          <Link to={AppRoute.MY_LIST}><img src="img/avatar.jpg" alt="User avatar" width="63" height="63" /></Link>
+          <Link to={AppRoute.MY_LIST}><img src={userData.avatar} alt="User avatar" width="63" height="63" /></Link>
         </div>
       </li>
       <li className="user-block__item">

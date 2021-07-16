@@ -1,10 +1,10 @@
 import { AuthorizationStatus, APIRoute, AppRoute } from '../const';
-import { adaptMoviesToClient, adaptMovieToClient } from './adapter';
+import { adaptMoviesToClient, adaptMovieToClient, adaptUserDataToClient } from './adapter';
 import { toast } from 'react-toastify';
 import browserHistory from '../browser-history';
 import { loadFavoriteMovies, loadHeaderMovie, loadMovies, loadSimilarMovies } from './reducers/movie-data';
 import { loadReviews } from './reducers/reviews-data';
-import { requireAuthorization, signOut } from './reducers/user-data';
+import { loadUserData, requireAuthorization, signOut } from './reducers/user-data';
 
 export const fetchMovieList = () => (dispatch, _getState, api) => (
   api.get(APIRoute.MOVIES)
@@ -41,15 +41,21 @@ export const postReview = ({ id, comment, rating }) => (dispatch, _getState, api
 
 export const checkAuth = () => (dispatch, _getState, api) => (
   api.get(APIRoute.LOGIN)
-    .then(() => dispatch(requireAuthorization(AuthorizationStatus.AUTH)))
+    .then(({ data }) => {
+      dispatch(loadUserData(adaptUserDataToClient(data)));
+      dispatch(requireAuthorization(AuthorizationStatus.AUTH));
+    })
     .catch((err) => toast.error(err.message))
 );
 
 export const login = ({ login: email, password }) => (dispatch, _getState, api) => (
   api.post(APIRoute.LOGIN, { email, password })
-    .then(({ data }) => localStorage.setItem('token', data.token))
-    .then(() => dispatch(requireAuthorization(AuthorizationStatus.AUTH)))
-    .then(() => dispatch(browserHistory.push(AppRoute.ROOT)))
+    .then(({ data }) => {
+      localStorage.setItem('token', data.token);
+      dispatch(loadUserData(adaptUserDataToClient(data)));
+      dispatch(requireAuthorization(AuthorizationStatus.AUTH));
+      dispatch(browserHistory.push(AppRoute.ROOT));
+    })
     .catch((err) => toast.error(err.message))
 );
 

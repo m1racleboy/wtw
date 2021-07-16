@@ -32,4 +32,18 @@ export const adaptMovieToClient = (movie) => {
   return movie;
 };
 
+export const adaptUserDataToClient = (userData) => {
+  userData = Object.assign(
+    {},
+    userData,
+    {
+      avatar: userData.avatar_url,
+    },
+  );
+
+  delete userData.avatar_url;
+
+  return userData;
+};
+
 export const adaptMoviesToClient = (movies) => movies.map((movie) => adaptMovieToClient(movie));
