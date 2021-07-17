@@ -12,7 +12,7 @@ export const adaptTimeToPlayer = (time) => {
   const minutes = ~~((time % SECONDS_IN_HOUR) / MINUTES_PER_HOUR);
   const seconds = ~~time % MINUTES_PER_HOUR;
 
-  let result = '';
+  let result = '-';
 
   if (hours > 0) {
     result += `${hours}:${minutes < FIRST_TWO_DIGIT_NUMBER ? '0' : ''}`;

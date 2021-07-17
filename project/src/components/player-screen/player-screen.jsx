@@ -4,15 +4,19 @@ import { useSelector } from 'react-redux';
 import browserHistory from '../../browser-history';
 import { adaptTimeToPlayer } from '../../utils/movie';
 import { KeyCodes } from '../../const';
+import LoadingSpinner from '../loading-spinner/loading-spinner';
 
 const BAG_VALUE = 25;
 const MAX_PERCENT = 100;
+const START_VOLUME_VALUE = 0.1;
+const VIDEO_READY_VALUE = 3;
 
 export default function PlayerScreen() {
   const movies = useSelector((state) => state.movie.movies);
   const { id } = useParams();
   const movie = movies.find((element) => element.id === +id);
 
+  const [isLoading, setIsLoading] = useState(true);
   const [playerStatus, setPlayerStatus] = useState(false);
   const [toggleBarStatus, setToggleBarStatus] = useState(0);
   const [timeLeft, setTimeLeft] = useState('00:00:00');
@@ -25,7 +29,10 @@ export default function PlayerScreen() {
     title,
   } = movie;
 
-  const handleExitClick = () => browserHistory.goBack();
+  const handleExitClick = () => {
+    movieRef.current.pause();
+    browserHistory.goBack();
+  };
   const handlePlayButtonClick = () => setPlayerStatus(!playerStatus);
 
   const handleToggleScreen = () => {
@@ -41,7 +48,7 @@ export default function PlayerScreen() {
     const duration = movieRef.current.duration;
     const currentTime = movieRef.current.currentTime;
     progressBarRef.current.value = MAX_PERCENT * currentTime / duration;
-    setTimeLeft(adaptTimeToPlayer(currentTime));
+    setTimeLeft(adaptTimeToPlayer(duration - currentTime));
     setToggleBarStatus(progressBarRef.current.value);
   };
 
@@ -59,6 +66,21 @@ export default function PlayerScreen() {
     playerStatus ? movieRef.current.play() : movieRef.current.pause();
   }, [playerStatus]);
 
+  useEffect(() => {
+    movieRef.current.onloadeddata = () => {
+      movieRef.current.volume = START_VOLUME_VALUE;
+      if (movieRef.current.readyState >= VIDEO_READY_VALUE) {
+        setIsLoading(false);
+      }
+    };
+
+    return () => {
+      if (movieRef.current) {
+        movieRef.current = null;
+      }
+    };
+  }, [previewMovieLink]);
+
   return (
     <div className="player">
       <video
@@ -75,12 +97,11 @@ export default function PlayerScreen() {
         onDoubleClick={handleToggleScreen}
         onClick={handlePlayButtonClick}
         onTimeUpdate={handleProgressUpdate}
-        muted
       >
       </video>
 
       <button type="button" className="player__exit" onClick={handleExitClick}>Exit</button>
-
+      {isLoading && <LoadingSpinner />}
       <div className="player__controls">
         <div className="player__controls-row">
           <div className="player__time">
