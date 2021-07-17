@@ -5,6 +5,7 @@ export const userData = createSlice({
   name: 'userData',
   initialState: {
     authorizationStatus: AuthorizationStatus.UNKNOWN,
+    userData: {},
   },
   reducers: {
     requireAuthorization(state, action) {
@@ -12,9 +13,13 @@ export const userData = createSlice({
     },
     signOut(state) {
       state.authorizationStatus = AuthorizationStatus.NO_AUTH;
+      state.userData = {};
+    },
+    loadUserData(state, action) {
+      state.userData = action.payload;
     },
   },
 });
 
 export default userData.reducer;
-export const { requireAuthorization, signOut } = userData.actions;
+export const { requireAuthorization, signOut, loadUserData } = userData.actions;

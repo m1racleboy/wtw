@@ -36,8 +36,26 @@ export const movieData = createSlice({
     resetRenderedMoviesCount(state) {
       state.renderedMoviesCount = MOVIES_COUNT_PER_STEP;
     },
+    setFavoriteMovie(state, action) {
+      const index = state.movies.findIndex((movie) => movie.id === action.payload.id);
+      state.movies = [
+        ...state.movies.slice(0, index),
+        action.payload,
+        ...state.movies.slice(index + 1),
+      ];
+      if (state.headerMovie.id === action.payload.id) {
+        state.headerMovie = action.payload;
+      }
+    },
   },
 });
 
 export default movieData.reducer;
-export const { loadMovies, loadHeaderMovie, loadSimilarMovies, loadFavoriteMovies, changeCurrentGenre, changeRenderedMoviesCount, resetRenderedMoviesCount } = movieData.actions;
+export const { loadMovies,
+  loadHeaderMovie,
+  loadSimilarMovies,
+  loadFavoriteMovies,
+  changeCurrentGenre,
+  changeRenderedMoviesCount,
+  resetRenderedMoviesCount,
+  setFavoriteMovie } = movieData.actions;
