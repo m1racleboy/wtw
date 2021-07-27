@@ -6,6 +6,7 @@ export const useValidation = (value, validations) => {
   const [maxLengthError, setMaxLengthError] = useState(false);
   const [emailError, setEmailError] = useState(false);
   const [inputValid, setInputValid] = useState(false);
+  const [spaceError, setSpaceError] = useState(false);
 
   useEffect(() => {
     for (const validation in validations) {
@@ -24,20 +25,26 @@ export const useValidation = (value, validations) => {
           re.test(String(value).toLowerCase()) ? setEmailError(false) : setEmailError(true);
           break;
         }
+        case 'isOnlySpace': {
+          const re = /[ ]/;
+          re.test(value) ? setSpaceError(true) : setSpaceError(false);
+          break;
+        }
         default: return;
       }
     }
   }, [value]);
 
   useEffect(() => {
-    isEmpty || minLengthError || maxLengthError || emailError ? setInputValid(false) : setInputValid(true);
-  }, [isEmpty, minLengthError, maxLengthError, emailError]);
+    isEmpty || minLengthError || maxLengthError || emailError || spaceError ? setInputValid(false) : setInputValid(true);
+  }, [isEmpty, minLengthError, maxLengthError, emailError, spaceError]);
 
   return {
     isEmpty,
     minLengthError,
     maxLengthError,
     emailError,
+    spaceError,
     inputValid,
   };
 };

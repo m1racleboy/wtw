@@ -50,7 +50,6 @@ export default function AddReviewFormScreen() {
           {(comment.isDirty && comment.isEmpty) && <div style={{ color: 'black' }}>Комментарий не может быть пустым</div>}
           {(comment.isDirty && comment.minLengthError) && <div style={{ color: 'black' }}>Слишком короткий комментарий, осталось: {COMMENT_MIN_LENGTH - comment.value.length}</div>}
           {(comment.isDirty && comment.maxLengthError) && <div style={{ color: 'black' }}>Слишком длинный комментарий, превышен на: {comment.value.length - COMMENT_MAX_LENGTH}</div>}
-
           <textarea
             className="add-review__textarea"
             name="review-text"

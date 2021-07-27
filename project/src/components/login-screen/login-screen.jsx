@@ -12,7 +12,7 @@ const PASSWORD_MAX_LENGTH = 20;
 export default function LoginScreen() {
   const dispatch = useDispatch();
   const email = useInput('', { isEmpty: true, minLength: EMAIL_MIN_LENGTH, maxLength: EMAIL_MAX_LENGTH, isEmail: true });
-  const password = useInput('', { isEmpty: true, minLength: PASSWORD_MIN_LENGTH, maxLength: PASSWORD_MAX_LENGTH });
+  const password = useInput('', { isEmpty: true, minLength: PASSWORD_MIN_LENGTH, maxLength: PASSWORD_MAX_LENGTH, isOnlySpace: true });
 
   const handleSubmit = (evt) => {
     evt.preventDefault();
@@ -59,6 +59,7 @@ export default function LoginScreen() {
               {(password.isDirty && password.isEmpty) && <div style={{ color: 'white' }}>Поле пароля не может быть пустым</div>}
               {(password.isDirty && password.minLengthError) && <div style={{ color: 'white' }}>Слишком короткий пароль, осталось: {PASSWORD_MIN_LENGTH - password.value.length}</div>}
               {(password.isDirty && password.maxLengthError) && <div style={{ color: 'white' }}>Слишком длинный пароль, осталось: {password.value.length - PASSWORD_MAX_LENGTH}</div>}
+              {(password.isDirty && password.spaceError) && <div style={{ color: 'white' }}>Поле пароля не может содержать пробелы</div>}
               <input
                 value={password.value}
                 onChange={(e) => password.onChange(e)}
