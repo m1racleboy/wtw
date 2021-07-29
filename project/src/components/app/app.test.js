@@ -7,6 +7,8 @@ import { createMemoryHistory } from 'history';
 import { AuthorizationStatus, AppRoute, ALL_GENRES, MOVIES_COUNT_PER_STEP } from '../../const';
 import App from './app';
 import { adaptMoviesToClient, adaptMovieToClient } from '../../store/adapter';
+import { createAPI } from '../../services/api';
+import thunk from 'redux-thunk';
 
 const movieInfo = [
   {
@@ -112,12 +114,13 @@ const authInfo = {
 let history = null;
 let store = null;
 let fakeApp = null;
+const api = createAPI(() => { });
 
 describe('Маршрутизация приложения', () => {
   beforeAll(() => {
     history = createMemoryHistory();
 
-    const createFakeStore = configureStore({});
+    const createFakeStore = configureStore([thunk.withExtraArgument(api)]);
     store = createFakeStore({
       movie: {
         currentGenre: ALL_GENRES,
