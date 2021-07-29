@@ -2,17 +2,18 @@ import React from 'react';
 import { render } from '@testing-library/react';
 import { Router } from 'react-router-dom';
 import { createMemoryHistory } from 'history';
-import NotFoundScreen from './not-found-screen';
+import LoadingScreen from './loading-screen';
 
-describe('Тестирование компонента Not found', () => {
+describe('Тестирование компонента загрузки',() => {
   it('Должен отрендериться корректно', () => {
     const history = createMemoryHistory();
-    const { getByText } = render(
+
+    const result = render(
       <Router history={history}>
-        <NotFoundScreen />
+        <LoadingScreen />
       </Router>,
     );
 
-    expect(getByText('404. Page not found')).toBeInTheDocument();
+    expect(result.getByTestId('loader')).toHaveTextContent('Loading ...');
   });
 });

@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import ReviewProp from '../../props/review.prop';
 import dayjs from 'dayjs';
 
-export default function DetailsTab(props) {
+export default function ReviewsTab(props) {
   const { reviews } = props;
 
   return (
@@ -52,6 +52,6 @@ export default function DetailsTab(props) {
   );
 }
 
-DetailsTab.propTypes = {
+ReviewsTab.propTypes = {
   reviews: PropTypes.arrayOf(ReviewProp).isRequired,
 };
