@@ -1,7 +1,7 @@
 import React from 'react';
-import { Switch, Route, Router as BrowserRouter } from 'react-router-dom';
-import browserHistory from '../../browser-history';
+import { Switch, Route } from 'react-router-dom';
 import PrivateRoute from '../private-route/private-route';
+import PrivateRouteLogin from '../private-route/private-route-login';
 import WelcomeScreen from '../welcome-screen/welcome-screen';
 import LoginScreen from '../login-screen/login-screen';
 import MovieDetailsScreen from '../movie-details-screen/movie-details-screen';
@@ -25,37 +25,38 @@ export default function App() {
   }
 
   return (
-    <BrowserRouter history={browserHistory}>
-      <Switch>
-        <Route exact path={AppRoute.ROOT}>
-          <WelcomeScreen />
-        </Route>
-        <Route exact path={AppRoute.LOGIN}>
-          <LoginScreen />
-        </Route>
-        <Route exact path={AppRoute.MOVIE}>
-          <MovieDetailsScreen />
-        </Route>
-        <PrivateRoute
-          exact
-          path={AppRoute.MY_LIST}
-          render={() => <MyListScreen />}
-        >
-        </PrivateRoute>
-        <PrivateRoute
-          exact
-          path={AppRoute.REVIEW}
-          render={() => <AddReviewScreen />}
-        >
-        </PrivateRoute>
-        <Route exact path={AppRoute.PLAYER}>
-          <PlayerScreen />
-        </Route>
-        <Route>
-          <NotFoundScreen />
-        </Route>
-      </Switch>
-    </BrowserRouter >
+    <Switch>
+      <Route exact path={AppRoute.ROOT}>
+        <WelcomeScreen />
+      </Route>
+      <PrivateRouteLogin
+        exact
+        path={AppRoute.LOGIN}
+        render={() => <LoginScreen />}
+      >
+      </PrivateRouteLogin>
+      <Route exact path={AppRoute.MOVIE}>
+        <MovieDetailsScreen />
+      </Route>
+      <PrivateRoute
+        exact
+        path={AppRoute.MY_LIST}
+        render={() => <MyListScreen />}
+      >
+      </PrivateRoute>
+      <PrivateRoute
+        exact
+        path={AppRoute.REVIEW}
+        render={() => <AddReviewScreen />}
+      >
+      </PrivateRoute>
+      <Route exact path={AppRoute.PLAYER}>
+        <PlayerScreen />
+      </Route>
+      <Route>
+        <NotFoundScreen />
+      </Route>
+    </Switch>
   );
 }
 

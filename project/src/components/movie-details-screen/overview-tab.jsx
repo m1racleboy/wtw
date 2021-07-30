@@ -55,7 +55,7 @@ export default function OverviewTab(props) {
         <div className="film-rating__score">{rating}</div>
         <p className="film-rating__meta">
           <span className="film-rating__level">{getRatingLevel(rating)}</span>
-          <span className="film-rating__count">{scoresCount} ratings</span>
+          <span className="film-rating__count">{scoresCount === 1 ? `${scoresCount} rating` : `${scoresCount} ratings`}</span>
         </p>
       </div>
 
