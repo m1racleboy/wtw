@@ -25,7 +25,7 @@ export default function MyListScreen() {
       </header>
 
       <section className="catalog">
-        <h2 className="catalog__title visually-hidden">Catalog</h2>
+        <h2 data-testid='my-list-movies' className="catalog__title visually-hidden">Catalog</h2>
         <MovieListScreen movies={favoriteMovies} />
       </section>
 

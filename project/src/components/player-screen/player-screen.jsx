@@ -1,7 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useHistory, useParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-import browserHistory from '../../browser-history';
 import { adaptTimeToPlayer } from '../../utils/movie';
 import { KeyCodes } from '../../const';
 import LoadingSpinner from '../loading-spinner/loading-spinner';
@@ -14,6 +13,7 @@ const VIDEO_READY_VALUE = 3;
 export default function PlayerScreen() {
   const movies = useSelector((state) => state.movie.movies);
   const { id } = useParams();
+  const history = useHistory();
   const movie = movies.find((element) => element.id === +id);
 
   const [isLoading, setIsLoading] = useState(true);
@@ -31,8 +31,9 @@ export default function PlayerScreen() {
 
   const handleExitClick = () => {
     movieRef.current.pause();
-    browserHistory.goBack();
+    history.goBack();
   };
+
   const handlePlayButtonClick = () => setPlayerStatus(!playerStatus);
 
   const handleToggleScreen = () => {
@@ -119,7 +120,7 @@ export default function PlayerScreen() {
         </div>
 
         <div className="player__controls-row">
-          <button type="button" className="player__play" onClick={handlePlayButtonClick}>
+          <button type="button" className="player__play" onClick={handlePlayButtonClick} disabled={isLoading}>
             {playerStatus
               ?
               <>

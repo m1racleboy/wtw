@@ -52,6 +52,7 @@ export default function LoginScreen() {
                 placeholder="Email address"
                 name="user-email"
                 id="user-email"
+                data-testid="email"
               />
               <label className="sign-in__label visually-hidden" htmlFor="user-email">Email address</label>
             </div>
@@ -68,6 +69,7 @@ export default function LoginScreen() {
                 type="password" placeholder="Password"
                 name="user-password"
                 id="user-password"
+                data-testid="password"
               />
               <label className="sign-in__label visually-hidden" htmlFor="user-password">Password</label>
             </div>
