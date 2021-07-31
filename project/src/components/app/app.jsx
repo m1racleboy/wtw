@@ -1,7 +1,6 @@
 import React from 'react';
-import { Switch, Route } from 'react-router-dom';
+import { Switch, Route, Redirect } from 'react-router-dom';
 import PrivateRoute from '../private-route/private-route';
-import PrivateRouteLogin from '../private-route/private-route-login';
 import WelcomeScreen from '../welcome-screen/welcome-screen';
 import LoginScreen from '../login-screen/login-screen';
 import MovieDetailsScreen from '../movie-details-screen/movie-details-screen';
@@ -10,7 +9,7 @@ import AddReviewScreen from '../add-review-screen/add-review-screen';
 import PlayerScreen from '../player-screen/player-screen';
 import NotFoundScreen from '../not-found-screen/not-found-screen';
 import LoadingScreen from '../loading-screen/loading-screen';
-import { AppRoute } from '../../const';
+import { AppRoute, AuthorizationStatus } from '../../const';
 import { isCheckedAuth } from '../welcome-screen/welcome-screen';
 import { useSelector } from 'react-redux';
 
@@ -29,12 +28,15 @@ export default function App() {
       <Route exact path={AppRoute.ROOT}>
         <WelcomeScreen />
       </Route>
-      <PrivateRouteLogin
+      <Route
         exact
         path={AppRoute.LOGIN}
-        render={() => <LoginScreen />}
-      >
-      </PrivateRouteLogin>
+        render={() => (
+          authorizationStatus === AuthorizationStatus.AUTH
+            ? <Redirect to={AppRoute.ROOT} />
+            : <LoginScreen />
+        )}
+      />
       <Route exact path={AppRoute.MOVIE}>
         <MovieDetailsScreen />
       </Route>

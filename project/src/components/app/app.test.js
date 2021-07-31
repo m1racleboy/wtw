@@ -1,14 +1,15 @@
 import React from 'react';
+import ReactRouter from 'react-router';
+import configureStore from 'redux-mock-store';
+import thunk from 'redux-thunk';
+import App from './app';
 import { render, screen } from '@testing-library/react';
 import { Router } from 'react-router-dom';
 import { Provider } from 'react-redux';
-import configureStore from 'redux-mock-store';
 import { createMemoryHistory } from 'history';
 import { AuthorizationStatus, AppRoute, ALL_GENRES, MOVIES_COUNT_PER_STEP } from '../../const';
-import App from './app';
 import { adaptMoviesToClient, adaptMovieToClient } from '../../store/adapter';
 import { createAPI } from '../../services/api';
-import thunk from 'redux-thunk';
 
 const movieInfo = [
   {
@@ -153,7 +154,8 @@ describe('Маршрутизация приложения', () => {
   });
 
   it('Переход на страницу фильма', () => {
-    history.push(`/films/${1}`);
+    jest.spyOn(ReactRouter, 'useParams').mockReturnValue({ id: 1 });
+    history.push(AppRoute.MOVIE);
     render(fakeApp);
 
     expect(screen.getByText(/Play/i)).toBeInTheDocument();
@@ -164,14 +166,16 @@ describe('Маршрутизация приложения', () => {
     expect(screen.getByText(/My list/i)).toBeInTheDocument();
     expect(screen.getByText(/More like this/i)).toBeInTheDocument();
   });
-  // todo здесь используется useEffect который я проглядел
-  // it('Переход на страницу плеера', () => {
-  //   history.push(`/player/${1}`);
-  //   render(fakeApp);
 
-  //   expect(screen.getByText(/Exit/i)).toBeInTheDocument();
-  //   expect(screen.getByText(/00:00:00/i)).toBeInTheDocument();
-  // });
+  it('Переход на страницу плеера', () => {
+    jest.spyOn(ReactRouter, 'useParams').mockReturnValue({ id: 1 });
+    history.push(AppRoute.PLAYER);
+
+    render(fakeApp);
+
+    expect(screen.getByText(/Exit/i)).toBeInTheDocument();
+    expect(screen.getByText(/00:00:00/i)).toBeInTheDocument();
+  });
 
   it('Переход на страницу 404', () => {
     history.push('/non-existent-route');

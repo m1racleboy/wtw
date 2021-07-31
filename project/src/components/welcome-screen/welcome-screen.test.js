@@ -4,7 +4,7 @@ import { Router } from 'react-router-dom';
 import { createMemoryHistory } from 'history';
 import configureStore from 'redux-mock-store';
 import { Provider } from 'react-redux';
-import { AuthorizationStatus, ALL_GENRES } from '../../const';
+import { AuthorizationStatus, ALL_GENRES, AppRoute } from '../../const';
 import WelcomeScreen from './welcome-screen';
 
 const initialState = {
@@ -86,7 +86,7 @@ const headerMovie = initialState.movie.headerMovie;
 describe('Тестирование компонента WelcomeScreen', () => {
   it('Должен отрендериться корректно', () => {
     const history = createMemoryHistory();
-    history.push('/');
+    history.push(AppRoute.ROOT);
 
     render(
       <Provider store={mockStore(initialState)}>
