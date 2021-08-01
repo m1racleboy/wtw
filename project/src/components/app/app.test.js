@@ -1,16 +1,17 @@
 import React from 'react';
+import ReactRouter from 'react-router';
+import configureStore from 'redux-mock-store';
+import thunk from 'redux-thunk';
+import App from './app';
 import { render, screen } from '@testing-library/react';
 import { Router } from 'react-router-dom';
 import { Provider } from 'react-redux';
-import configureStore from 'redux-mock-store';
 import { createMemoryHistory } from 'history';
 import { AuthorizationStatus, AppRoute, ALL_GENRES, MOVIES_COUNT_PER_STEP } from '../../const';
-import App from './app';
 import { adaptMoviesToClient, adaptMovieToClient } from '../../store/adapter';
 import { createAPI } from '../../services/api';
-import thunk from 'redux-thunk';
 
-const movieInfo = [
+const movies = [
   {
     id: 1,
     name: 'The Grand Budapest Hotel',
@@ -51,6 +52,120 @@ const movieInfo = [
   },
   {
     id: 3,
+    name: 'The Grand Budapest Hotel',
+    'poster_image': 'img/the-grand-budapest-hotel-poster.jpg',
+    'preview_image': 'img/the-grand-budapest-hotel.jpg',
+    'background_image': 'img/the-grand-budapest-hotel-bg.jpg',
+    'background_color': '#ffffff',
+    'video_link': 'https://some-link',
+    'preview_video_link': 'https://some-link',
+    description: 'In the 1930s, the Grand Budapest Hotel is a popular European ski resort, presided over by concierge Gustave H. (Ralph Fiennes). Zero, a junior lobby boy, becomes Gustave`s friend and protege.',
+    rating: 8.9,
+    'scores_count': 240,
+    director: 'Wes Andreson',
+    starring: ['Bill Murray', 'Edward Norton', 'Jude Law', 'Willem Dafoe', 'Saoirse Ronan'],
+    'run_time': 99,
+    genre: 'Comedy',
+    released: 2014,
+    'is_favorite': false,
+  },
+  {
+    id: 4,
+    name: 'The Grand Budapest Hotel',
+    'poster_image': 'img/the-grand-budapest-hotel-poster.jpg',
+    'preview_image': 'img/the-grand-budapest-hotel.jpg',
+    'background_image': 'img/the-grand-budapest-hotel-bg.jpg',
+    'background_color': '#ffffff',
+    'video_link': 'https://some-link',
+    'preview_video_link': 'https://some-link',
+    description: 'In the 1930s, the Grand Budapest Hotel is a popular European ski resort, presided over by concierge Gustave H. (Ralph Fiennes). Zero, a junior lobby boy, becomes Gustave`s friend and protege.',
+    rating: 8.9,
+    'scores_count': 240,
+    director: 'Wes Andreson',
+    starring: ['Bill Murray', 'Edward Norton', 'Jude Law', 'Willem Dafoe', 'Saoirse Ronan'],
+    'run_time': 99,
+    genre: 'Comedy',
+    released: 2014,
+    'is_favorite': false,
+  },
+  {
+    id: 5,
+    name: 'The Grand Budapest Hotel',
+    'poster_image': 'img/the-grand-budapest-hotel-poster.jpg',
+    'preview_image': 'img/the-grand-budapest-hotel.jpg',
+    'background_image': 'img/the-grand-budapest-hotel-bg.jpg',
+    'background_color': '#ffffff',
+    'video_link': 'https://some-link',
+    'preview_video_link': 'https://some-link',
+    description: 'In the 1930s, the Grand Budapest Hotel is a popular European ski resort, presided over by concierge Gustave H. (Ralph Fiennes). Zero, a junior lobby boy, becomes Gustave`s friend and protege.',
+    rating: 8.9,
+    'scores_count': 240,
+    director: 'Wes Andreson',
+    starring: ['Bill Murray', 'Edward Norton', 'Jude Law', 'Willem Dafoe', 'Saoirse Ronan'],
+    'run_time': 99,
+    genre: 'Comedy',
+    released: 2014,
+    'is_favorite': false,
+  },
+  {
+    id: 6,
+    name: 'The Grand Budapest Hotel',
+    'poster_image': 'img/the-grand-budapest-hotel-poster.jpg',
+    'preview_image': 'img/the-grand-budapest-hotel.jpg',
+    'background_image': 'img/the-grand-budapest-hotel-bg.jpg',
+    'background_color': '#ffffff',
+    'video_link': 'https://some-link',
+    'preview_video_link': 'https://some-link',
+    description: 'In the 1930s, the Grand Budapest Hotel is a popular European ski resort, presided over by concierge Gustave H. (Ralph Fiennes). Zero, a junior lobby boy, becomes Gustave`s friend and protege.',
+    rating: 8.9,
+    'scores_count': 240,
+    director: 'Wes Andreson',
+    starring: ['Bill Murray', 'Edward Norton', 'Jude Law', 'Willem Dafoe', 'Saoirse Ronan'],
+    'run_time': 99,
+    genre: 'Comedy',
+    released: 2014,
+    'is_favorite': false,
+  },
+  {
+    id: 7,
+    name: 'The Grand Budapest Hotel',
+    'poster_image': 'img/the-grand-budapest-hotel-poster.jpg',
+    'preview_image': 'img/the-grand-budapest-hotel.jpg',
+    'background_image': 'img/the-grand-budapest-hotel-bg.jpg',
+    'background_color': '#ffffff',
+    'video_link': 'https://some-link',
+    'preview_video_link': 'https://some-link',
+    description: 'In the 1930s, the Grand Budapest Hotel is a popular European ski resort, presided over by concierge Gustave H. (Ralph Fiennes). Zero, a junior lobby boy, becomes Gustave`s friend and protege.',
+    rating: 8.9,
+    'scores_count': 240,
+    director: 'Wes Andreson',
+    starring: ['Bill Murray', 'Edward Norton', 'Jude Law', 'Willem Dafoe', 'Saoirse Ronan'],
+    'run_time': 99,
+    genre: 'Comedy',
+    released: 2014,
+    'is_favorite': false,
+  },
+  {
+    id: 8,
+    name: 'The Grand Budapest Hotel',
+    'poster_image': 'img/the-grand-budapest-hotel-poster.jpg',
+    'preview_image': 'img/the-grand-budapest-hotel.jpg',
+    'background_image': 'img/the-grand-budapest-hotel-bg.jpg',
+    'background_color': '#ffffff',
+    'video_link': 'https://some-link',
+    'preview_video_link': 'https://some-link',
+    description: 'In the 1930s, the Grand Budapest Hotel is a popular European ski resort, presided over by concierge Gustave H. (Ralph Fiennes). Zero, a junior lobby boy, becomes Gustave`s friend and protege.',
+    rating: 8.9,
+    'scores_count': 240,
+    director: 'Wes Andreson',
+    starring: ['Bill Murray', 'Edward Norton', 'Jude Law', 'Willem Dafoe', 'Saoirse Ronan'],
+    'run_time': 99,
+    genre: 'Comedy',
+    released: 2014,
+    'is_favorite': false,
+  },
+  {
+    id: 9,
     name: 'The Grand Budapest Hotel',
     'poster_image': 'img/the-grand-budapest-hotel-poster.jpg',
     'preview_image': 'img/the-grand-budapest-hotel.jpg',
@@ -124,15 +239,15 @@ describe('Маршрутизация приложения', () => {
     store = createFakeStore({
       movie: {
         currentGenre: ALL_GENRES,
-        movies: adaptMoviesToClient(movieInfo),
+        movies: adaptMoviesToClient(movies),
         renderedMoviesCount: MOVIES_COUNT_PER_STEP,
-        headerMovie: adaptMovieToClient(movieInfo[0]),
-        similarMovies: adaptMoviesToClient([movieInfo[0], movieInfo[1]]),
-        favoriteMovies: adaptMoviesToClient([movieInfo[0], movieInfo[1]]),
+        headerMovie: adaptMovieToClient(movies[0]),
+        similarMovies: adaptMoviesToClient([movies[0], movies[1]]),
+        favoriteMovies: adaptMoviesToClient([movies[0], movies[1]]),
         isDataLoaded: true,
       },
       review: { reviews: reviewInfo },
-      user: { authorizationStatus: AuthorizationStatus.AUTH, userData: authInfo },
+      user: { authorizationStatus: AuthorizationStatus.NO_AUTH, userData: authInfo },
     });
 
     fakeApp = (
@@ -149,29 +264,39 @@ describe('Маршрутизация приложения', () => {
     render(fakeApp);
 
     expect(screen.getByText(/Play/i)).toBeInTheDocument();
-    expect(screen.getByText(/My list/i)).toBeInTheDocument();
+    expect(screen.getByText(/Show more/i)).toBeInTheDocument();
+  });
+
+  it('Переход на страницу авторизации', () => {
+    history.push(AppRoute.LOGIN);
+
+    render(fakeApp);
+
+    expect(screen.getByLabelText(/Email address/i)).toBeInTheDocument();
+    expect(screen.getByLabelText(/Password/i)).toBeInTheDocument();
   });
 
   it('Переход на страницу фильма', () => {
-    history.push(`/films/${1}`);
+    jest.spyOn(ReactRouter, 'useParams').mockReturnValue({ id: 1 });
+    history.push(AppRoute.MOVIE);
     render(fakeApp);
 
     expect(screen.getByText(/Play/i)).toBeInTheDocument();
-    expect(screen.getByText(/Add review/i)).toBeInTheDocument();
     expect(screen.getByText(/Overview/i)).toBeInTheDocument();
     expect(screen.getByText(/Details/i)).toBeInTheDocument();
     expect(screen.getByText(/Reviews/i)).toBeInTheDocument();
-    expect(screen.getByText(/My list/i)).toBeInTheDocument();
     expect(screen.getByText(/More like this/i)).toBeInTheDocument();
   });
-  // todo здесь используется useEffect который я проглядел
-  // it('Переход на страницу плеера', () => {
-  //   history.push(`/player/${1}`);
-  //   render(fakeApp);
 
-  //   expect(screen.getByText(/Exit/i)).toBeInTheDocument();
-  //   expect(screen.getByText(/00:00:00/i)).toBeInTheDocument();
-  // });
+  it('Переход на страницу плеера', () => {
+    jest.spyOn(ReactRouter, 'useParams').mockReturnValue({ id: 1 });
+    history.push(AppRoute.PLAYER);
+
+    render(fakeApp);
+
+    expect(screen.getByText(/Exit/i)).toBeInTheDocument();
+    expect(screen.getByText(/00:00:00/i)).toBeInTheDocument();
+  });
 
   it('Переход на страницу 404', () => {
     history.push('/non-existent-route');

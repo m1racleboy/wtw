@@ -41,7 +41,7 @@ export default function AddReviewFormScreen() {
     <div className="add-review">
       <form onSubmit={handleSubmit} action="#" className="add-review__form">
         <div className="rating" style={{ display: 'flex', flexDirection: 'column' }}>
-          {rating.isEmpty && <div style={{ color: 'black', margin: '0 auto' }}>Укажите рейтинг фильма</div>}
+          {(rating.isDirty && rating.isEmpty) && <div style={{ color: 'black', margin: '0 auto' }}>Укажите рейтинг фильма</div>}
           <div className="rating__stars">
             {stars.map((starValue) => createStarsTemplate(starValue))}
           </div>

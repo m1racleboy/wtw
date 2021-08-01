@@ -105,16 +105,20 @@ describe('Асинхронные операции', () => {
     const apiMock = new MockAdapter(api);
     const dispatch = jest.fn();
     const signOutLoader = logout();
+    Storage.prototype.removeItem = jest.fn();
 
     apiMock
       .onDelete(APIRoute.LOGOUT)
       .reply(204);
 
-    return signOutLoader(dispatch, () => { }, api)
+    return signOutLoader(dispatch, jest.fn(() => {}), api)
       .then(() => {
         expect(dispatch).toHaveBeenCalledTimes(2);
         expect(dispatch).toHaveBeenNthCalledWith(1, signOut());
         expect(dispatch).toHaveBeenNthCalledWith(2, browserHistory.push(AppRoute.ROOT));
+
+        expect(Storage.prototype.removeItem).toBeCalledTimes(1);
+        expect(Storage.prototype.removeItem).nthCalledWith(1, 'token');
       });
   });
 
@@ -223,11 +227,11 @@ describe('Асинхронные операции', () => {
     const dispatch = jest.fn();
     const id = 1;
     const status = 0;
-    const postFavoriteStatusLoader = postFavoriteStatus({ id: id, status: status});
+    const postFavoriteStatusLoader = postFavoriteStatus({ id: id, status: status });
 
     apiMock
       .onPost(`${APIRoute.FAVORITE}/${id}/${status}`)
-      .reply(200, { id: id, status: !status});
+      .reply(200, { id: id, status: !status });
 
     return postFavoriteStatusLoader(dispatch, () => { }, api)
       .then(() => {

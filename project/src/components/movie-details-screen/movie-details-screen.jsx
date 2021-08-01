@@ -71,7 +71,7 @@ export default function MovieDetailsScreen() {
             <UserStatus />
           </header>
 
-          <div className="film-card__wrap">
+          <div data-testid='movie-details-screen' className="film-card__wrap">
             <div className="film-card__desc">
               <h2 className="film-card__title">{title}</h2>
               <p className="film-card__meta">
