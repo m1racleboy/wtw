@@ -2,6 +2,7 @@ import React, { useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 
 import MovieProp from '../../props/movie.prop';
+import { MOVIE_PREVIEW_HEIGHT, MOVIE_PREVIEW_WIDTH } from '../../const';
 
 const PLAYER_TIMEOUT = 1000;
 
@@ -22,8 +23,8 @@ export default function VideoPlayer(props) {
 
   return (
     isActive
-      ? <video src={previewMovieLink} ref={videoRef} width={280} height={175} poster={previewImage} muted />
-      : <img src={previewImage} alt={title} width={280} height={175} />
+      ? <video src={previewMovieLink} ref={videoRef} width={MOVIE_PREVIEW_WIDTH} height={MOVIE_PREVIEW_HEIGHT} poster={previewImage} muted />
+      : <img src={previewImage} alt={title} width={MOVIE_PREVIEW_WIDTH} height={MOVIE_PREVIEW_HEIGHT} />
   );
 }
 
