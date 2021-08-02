@@ -37,4 +37,5 @@ export const KeyCodes = {
 export const ALL_GENRES = 'All genres';
 export const MOVIES_COUNT_PER_STEP = 8;
 export const MAX_COUNT_SIMILAR_MOVIES = 4;
-
+export const MOVIE_PREVIEW_WIDTH = 280;
+export const MOVIE_PREVIEW_HEIGHT = 175;
