@@ -7,7 +7,7 @@
 4. Axios
 5. Jest
 
-## Images:
+## Preview:
 ### 1. main page:
 ![Screenshot 2021-09-22 at 20-11-28 WTW](https://user-images.githubusercontent.com/56030631/134393746-dae42422-a5b7-44f1-9472-b729d5f7ec72.png)
 ### 2. login page:
