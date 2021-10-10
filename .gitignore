@@ -1,12 +1,15 @@
-# Файлы и папки операционной системы
-.DS_Store
+/node_modules
+/.pnp
+.pnp.js
+/coverage
+/build
 Thumbs.db
-
-# Файлы редактора
+.DS_Store
+.env
+*.log*
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
 .idea
 *.sublime*
 .vscode
-
-# Вспомогательные файлы
-*.log*
-node_modules/
